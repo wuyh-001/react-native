@@ -18,15 +18,9 @@ import IOSsPage from './js/page/PopularTabs/IOS.js';
 import AndroidPage from './js/page/PopularTabs/Android.js';
 import JavaScriptPage from './js/page/PopularTabs/JavaScript.js';
 
-//import List from './component_jq/ListViewComponent.js'
-//import RefreshControlComponent from './component_jq/RefreshControlComponent.js'
-//import ModalComponent from './component_jq/ModalComponent.js'
-//import AnimatedComponent from './component_jq/AnimatedComponent.js'
-
-import MoviesList from './SampleAppMovies/MoviesList.js';
 
 
-import Demo from './demo.js';
+
 
 const tabNav=TabNavigator({
     Java:{
@@ -60,4 +54,4 @@ const stackNav=StackNavigator(
 );
 
 
-AppRegistry.registerComponent('gitHub', () => MoviesList);
+AppRegistry.registerComponent('gitHub', () => stackNav);

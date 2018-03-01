@@ -3,8 +3,10 @@
  */
 import React,{Component} from 'react';
 import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,TouchableHighlight,AsyncStorage,TextInput} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableHighlight,TouchableOpacity,AsyncStorage,TextInput} from 'react-native';
 import Toast,{DURATION} from 'react-native-easy-toast';
+
+import NavigationBar from './../common/NavigationBar.js';
 
 const KEY='text';
 
@@ -22,7 +24,7 @@ export default class WelcomePage extends Component{
     }
 
     static navigationOptions={
-        headerTitle:'welcome'
+        header:null
     }
 
     onSave(){
@@ -60,7 +62,22 @@ export default class WelcomePage extends Component{
     render(){
         return (
             <View style={{flex:1}}>
-                <Text>Welcome</Text>
+                <NavigationBar
+                    title={'welcome'}
+                    statusBar={{
+                        backgroundColor:'#ee6363'
+                    }}
+                    leftButton={
+                        <TouchableOpacity>
+                            <Image source={require('./../../res/images/ic_arrow_back_white_36pt.png')} style={{width:22,height:22}}/>
+                        </TouchableOpacity>
+                    }
+                    rightButton={
+                        <TouchableOpacity>
+                            <Image source={require('./../../res/images/ic_star.png')} style={{width:22,height:22}}/>
+                        </TouchableOpacity>
+                    }
+                />
                 <TextInput style={{borderColor:'#ddd',borderWidth:1,height:40}} onChangeText={text=>this.text=text}/>
                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                     <Text onPress={()=>this.onSave()}>save</Text>
