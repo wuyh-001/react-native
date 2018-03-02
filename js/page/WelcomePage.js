@@ -16,7 +16,7 @@ export default class WelcomePage extends Component{
     }
     componentDidMount(){
         this.timer=setTimeout(()=>{
-            //this.props.navigation.navigate('homePage')
+            this.props.navigation.navigate('homePage')
         },500)
     }
     componentWillUnmount(){

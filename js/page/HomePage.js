@@ -7,6 +7,7 @@ import {StyleSheet,Text,View,Image} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 
 import PopularPage from './PopularPage.js';
+import MyPage from './my/MyPage.js';
 
 export default class HomePage extends Component{
     constructor(props){
@@ -16,7 +17,8 @@ export default class HomePage extends Component{
         }
     }
     static navigationOptions={
-        headerTitle:'PopularPage'
+        //headerTitle:'PopularPage'
+        header:null
     }
 
     render() {
@@ -32,7 +34,7 @@ export default class HomePage extends Component{
                         renderIcon={() => <Image source={require('./../../res/images/ic_polular.png')} style={styles.image}/>}
                         renderSelectedIcon={() => <Image source={require('./../../res/images/ic_polular.png')} style={[styles.image,{tintColor:'#2196f3'}]}/>}
                         onPress={() => this.setState({ selectedTab: 'tb_polular' })}>
-                        <View>
+                        <View style={{flex:1}}>
                             <PopularPage navigate={navigate}/>
                         </View>
                     </TabNavigator.Item>
@@ -43,7 +45,9 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image source={require('./../../res/images/ic_trending.png')} style={[styles.image,{tintColor:'#2196f3'}]}/>}
                         selectedTitleStyle={{color:'#2196f3'}}
                         onPress={() => this.setState({ selectedTab: 'tb_trending' })}>
-                        <View style={styles.page2}></View>
+                        <View>
+                            <MyPage/>
+                        </View>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={selectedTab === 'tb_favorite'}
@@ -61,7 +65,9 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image source={require('./../../res/images/ic_my.png')} style={[styles.image,{tintColor:'#2196f3'}]}/>}
                         selectedTitleStyle={{color:'#2196f3'}}
                         onPress={() => this.setState({ selectedTab: 'tb_my' })}>
-                        <View style={styles.page2}></View>
+                        <View >
+                            <MyPage navigate={navigate} />
+                        </View>
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>

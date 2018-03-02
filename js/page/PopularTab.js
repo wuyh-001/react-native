@@ -25,7 +25,7 @@ export default class PopularTab extends Component{
         this.setState({
             isLoading:true
         });
-        let url=this.genUrl(this.props.tab);
+        let url=this.genUrl(this.props.tabLabel);
         this.dataRepository.fetchNetRepository(url).then(result=>{
             this.setState({
                 dataSource:ds.cloneWithRows(result.items),

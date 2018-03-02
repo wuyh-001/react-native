@@ -46,7 +46,7 @@ export default class ListViewComponent extends Component{
         this._renderFooter=this._renderFooter.bind(this);
         this._renderHeader=this._renderHeader.bind(this);
         this._onRefresh=this._onRefresh.bind(this);
-        //this._onRefresh();
+        this._onRefresh();
     }
     _renderItem(rowData){
         return (
@@ -68,10 +68,11 @@ export default class ListViewComponent extends Component{
         return <Image style={{width:200,height:50}} resizeMode='contain' source={{uri:'http://img.zcool.cn/community/0176af5844caf4a8012060c87e987f.gif'}}/>
     }
     _onRefresh(){
+        var that=this;
         setTimeout(()=>{
-            this.setState(
+            that.setState({
                 isLoading:false
-            )
+            })
         },2000)
     }
 
@@ -86,7 +87,7 @@ export default class ListViewComponent extends Component{
                         renderSeparator={this._renderSeparator}
                         renderFooter={this._renderFooter}
                         renderHeader={this._renderHeader}
-                        RefreshControl={
+                        refreshControl={
                             <RefreshControl
                                 refreshing={this.state.isLoading}
                                 onRefresh={this._onRefresh}
