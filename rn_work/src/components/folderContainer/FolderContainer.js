@@ -149,7 +149,7 @@ FolderContainer.defaultProps = {
     isHasMargin:false,
     isHasPadding:true,
     hasAccording:true,
-    contentColor:'white'
+    contentColor:'#fff'
 };
 
 const styles = StyleSheet.create({
@@ -158,9 +158,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         justifyContent:'center',
         alignItems:'center',
-        /*borderBottomWidth:1,*/
         borderColor:'#e3e3e5',
-        /*marginTop:0*/
     },
     headerTitleRow:{
         color :'#2a2f43',
@@ -175,16 +173,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor:'#fff',
         justifyContent:'center',
-        /*marginTop:5,*/
-        /*borderBottomWidth:1,*/
         borderColor:'#e3e3e5'
     },
     headerTitleCol:{
         marginBottom:5
     },
     headerImage : {
-        width : 15,
-        height : 15
+        width : 16,
+        height : 16
     },
     headerColImg:{
         alignItems:'center',
@@ -195,13 +191,9 @@ const styles = StyleSheet.create({
         backgroundColor:'white'
     },
     content:{
-        /*backgroundColor:'#fff',*/
-        /*paddingLeft:14,
-        paddingRight:14,*/
         paddingTop:6,
         paddingBottom:6,
         justifyContent:'center',
-        /*borderBottomWidth:1,*/
         borderColor:'#e3e3e5'
     },
     contentText:{

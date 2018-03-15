@@ -2,11 +2,12 @@
  * Created by Administrator on 2018/1/2.
  */
 import React,{Component} from 'react';
-import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,TouchableHighlight} from 'react-native';
-import Accordion from 'react-native-collapsible/Accordion';
+import {View} from 'react-native';
+import {FolderContainer} from './../../../../src/index.js';
 
-import {FolderContainer} from 'IFTide';
+import Demo from './Demo.js';
+
+//import {FolderContainer} from 'IFTide';
 
 export default class FolderContainer_Demo extends Component<{}> {
     constructor(props) {
@@ -18,40 +19,45 @@ export default class FolderContainer_Demo extends Component<{}> {
     render(){
         const SECTIONS1 = [
             {
-                title: 'Ö÷ÒªÐÅÏ¢',
-                content: 'ÄÚÈÝÇøÓò',
-                status:'ÒÑÉóºË',
+                title: 'è¿™æ˜¯ç¬¬ä¸€ä¸ªtitle',
+                //content: 'è¿™æ˜¯ç¬¬ä¸€ä¸ªcontent',
+                //contentComponent:<Demo/>,
+                status:'å¾…å®¡æ ¸',
                 statusColor:'green'
             },
             {
-                title: 'Ö÷ÒªÐÅÏ¢',
-                content: 'ÄÚÈÝÇøÓò',
-                subTitle:'´ÎÒªÐÅÏ¢',
-                status:'Î´Í¨¹ý',
+                title: 'è¿™æ˜¯ç¬¬äºŒä¸ªtitle',
+                content: 'è¿™æ˜¯ç¬¬äºŒä¸ªcontent',
+                subTitle:'è¿™æ˜¯ç¬¬äºŒä¸ªsubTitle',
+                status:'å¾…å®¡æ ¸',
                 statusColor:'red'
             }
         ];
         const SECTIONS2 = [
             {
-                title: 'Ö÷ÒªÐÅÏ¢',
-                content: 'ÄÚÈÝÇøÓò'
+                title: 'è¿™æ˜¯ç¬¬ä¸‰ä¸ªtitle',
+                content: 'è¿™æ˜¯ç¬¬ä¸‰ä¸ªcontent',
             },
             {
-                title: 'Ö÷ÒªÐÅÏ¢',
-                subTitle:'´ÎÒªÐÅÏ¢',
-                content: 'ÄÚÈÝÇøÓò... loreamÖ÷ÒªÐÅÏ¢ÒÑÉóºË,ÄÚÈÝÇøÓò... loreamÖ÷ÒªÐÅÏ¢ÒÑÉóºË,ÄÚÈÝÇøÓò... loreamÖ÷ÒªÐÅÏ¢ÒÑÉóºË,ÄÚÈÝÇøÓò... loreamÖ÷ÒªÐÅÏ¢ÒÑÉóºË    '
+                title: 'è¿™æ˜¯ç¬¬å››ä¸ªtitle',
+                content: 'è¿™æ˜¯ç¬¬å››ä¸ªcontent',
             }
         ];
         let folderContainer1={
             hasImg:true,
             imgPos:'right',
+            marginTop:10,
+            contentColor:'#fff',
+            isShowContentLine:false,
             initiallyActiveSection:0,
+            hasAccording:false,
             section:SECTIONS1,
             clickFunc:this.folderClickFunc
         }
         let folderContainer2={
             hasImg:true,
             imgPos:'center',
+            marginTop:10,
             initiallyActiveSection:0,
             section:SECTIONS2,
             clickFunc:this.folderClickFunc
@@ -59,8 +65,9 @@ export default class FolderContainer_Demo extends Component<{}> {
 
         return (
             <View>
-                <FolderContainer {...folderContainer2}></FolderContainer>
                 <FolderContainer {...folderContainer1}></FolderContainer>
+                <View style={{height:40}}></View>
+                <FolderContainer {...folderContainer2}></FolderContainer>
             </View>
         );
 

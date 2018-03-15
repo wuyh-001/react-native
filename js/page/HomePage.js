@@ -45,7 +45,7 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image source={require('./../../res/images/ic_trending.png')} style={[styles.image,{tintColor:'#2196f3'}]}/>}
                         selectedTitleStyle={{color:'#2196f3'}}
                         onPress={() => this.setState({ selectedTab: 'tb_trending' })}>
-                        <View>
+                        <View style={{flex:1}}>
                             <MyPage/>
                         </View>
                     </TabNavigator.Item>
@@ -65,7 +65,7 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image source={require('./../../res/images/ic_my.png')} style={[styles.image,{tintColor:'#2196f3'}]}/>}
                         selectedTitleStyle={{color:'#2196f3'}}
                         onPress={() => this.setState({ selectedTab: 'tb_my' })}>
-                        <View >
+                        <View style={{flex:1}}>
                             <MyPage navigate={navigate} />
                         </View>
                     </TabNavigator.Item>

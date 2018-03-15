@@ -10,6 +10,9 @@ import HomePage from './js/page/HomePage.js';
 
 import CustomKey from './js/page/my/CustomKey.js';
 
+import FolderContainer_Demo from './rn_work/examples/src/components/folderContainer/FolderContainer_Demo.js';
+import CheckMore_Demo from './rn_work/examples/src/components/checkMore/CheckMore_Demo.js';
+
 const stackNav=StackNavigator(
     {
         welcomePage:{
@@ -24,4 +27,4 @@ const stackNav=StackNavigator(
     }
 );
 
-AppRegistry.registerComponent('gitHub', () => stackNav);
+AppRegistry.registerComponent('gitHub', () => CheckMore_Demo);

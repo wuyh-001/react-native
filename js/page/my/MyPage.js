@@ -27,7 +27,7 @@ export default class MyPage extends Component{
                         </TouchableOpacity>
                     }
                 />
-                <Text onPress={()=>{this.props.navigate('CustomKey')}}>自定义标签</Text>
+                <Text onPress={()=>this.props.navigate('CustomKey')}>自定义标签</Text>
             </View>
         )
     }

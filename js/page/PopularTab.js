@@ -20,7 +20,7 @@ export default class PopularTab extends Component{
             dataSource:ds.cloneWithRows([])
         }
         this.dataRepository=new DataRepository();
-    };
+    }
     onLoad(){
         this.setState({
             isLoading:true
