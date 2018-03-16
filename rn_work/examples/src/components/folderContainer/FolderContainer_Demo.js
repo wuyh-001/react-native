@@ -5,7 +5,7 @@ import React,{Component} from 'react';
 import {View} from 'react-native';
 import {FolderContainer} from './../../../../src/index.js';
 
-import Demo from './Demo.js';
+//import Demo from './Demo.js';
 
 //import {FolderContainer} from 'IFTide';
 

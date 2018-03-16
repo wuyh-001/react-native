@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,ListView,Animated,Easing,TouchableOpacity} from 'react-native';
+import {StyleSheet,Text,View,Image,ListView,TouchableOpacity,Platform,UIManager,LayoutAnimation} from 'react-native';
 
-var getContainerHeight=[];
 
 export default class CheckMore_1 extends Component {
     constructor(props){
@@ -11,21 +10,16 @@ export default class CheckMore_1 extends Component {
             data:props.detailsListData,
             isShow:true,
             isDown:true,
-            opacity:new Animated.Value(0),
-            containerHeight:new Animated.Value(0),
-            num:3,
-            flag:true,
-            getContainerHeight:[]
+            limitNum:3,
+        };
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true)
         }
         this._renderItem=this._renderItem.bind(this);
         this._renderImg=this._renderImg.bind(this);
-        //this._itemLayout=this._itemLayout.bind(this);
-        this._containerLayout=this._containerLayout.bind(this);
         this._onClick=this._onClick.bind(this);
     }
-    componentDidMount(){
 
-    }
 
     _renderItem(rowData,startNum,length){
         let subTitleComponent,subTitle,titleComponent,title;
@@ -45,11 +39,7 @@ export default class CheckMore_1 extends Component {
                 subTitle=<Text style={styles.subTitle}>{rowData[i].subTitle}</Text>
             };
             rowArr.push(
-                <View style={[styles.item]} key={i} onLayout={(event)=>{
-                        this.state.getContainerHeight.push(event.nativeEvent.layout.height);
-                        console.log(this.state.getContainerHeight)
-                    }
-                }>
+                <View style={[styles.item]} key={i}>
                     {title}
                     {titleComponent}
                     {subTitle}
@@ -70,55 +60,48 @@ export default class CheckMore_1 extends Component {
         );
     };
 
-    _containerLayout(){
-        console.log('containerHeight:'+this.state.containerHeight.value)
-        let height=0;
-        for(let i=0;i<this.state.num;i++){
-            height+=this.state.getContainerHeight[i]
-        };
-        console.log(height)
-        //取到集合中的前num项的值，赋值给父级容器
-        if(this.state.isDown){
-            this.state.containerHeight.setValue(height);
-        };
-    }
+
     _onClick(){
-        let height=0;
-        let len=0;
-        if(this.state.flag){
-            len=this.state.data.length;
-            for(let i=0;i<len;i++){
-                height+=getContainerHeight[i]
-            };
-            this.setState({isDown:false,flag:false,containerHeight:200});
-            /*Animated.timing(this.state.containerHeight, {
-                toValue:height,
-                duration:100,
-                easing: Easing.linear// 线性的渐变函数
-            }).start();*/
+
+        LayoutAnimation.configureNext({
+            duration: 100, //持续时间
+            create: { // 视图创建
+                type: LayoutAnimation.Types.linear,//linear,spring
+                property: LayoutAnimation.Properties.scaleXY,// opacity、scaleXY
+            },
+            update: { // 视图更新
+                type: LayoutAnimation.Types.easeInEaseOut,
+            },
+        });
+
+
+        if(this.state.isDown){
+            this.setState({isDown:false});
         }else{
-            len=this.state.num;
-            for(let i=0;i<len;i++){
-                height+=getContainerHeight[i]
-            };
-            this.setState({isDown:true,flag:true});
-            /*Animated.timing(this.state.containerHeight, {
-                toValue:height,
-                duration:100,
-                easing: Easing.linear// 线性的渐变函数
-            }).start();*/
+            this.setState({isDown:true});
         };
     }
 
 
     render() {
         return (
-            <Animated.View style={[styles.container,{ height:this.state.containerHeight}]} onLayout={this._containerLayout}>
-                { this._renderItem(this.state.data,0,this.state.data.length)}
-                <TouchableOpacity onPress={this._onClick}>
-                    {this._renderImg()}
-                </TouchableOpacity>
-            </Animated.View>
+        <View style={{flex:1}}>
+            <View style={[styles.container]}>
+                <View>
+                    { this._renderItem(this.state.data,0,this.state.limitNum)}
+                </View>
+                {
+                    !this.state.isDown?
+                        <View>
+                            { this._renderItem(this.state.data,this.state.limitNum,this.state.data.length)}
+                        </View>
+                    :null
+                }
+            </View>
+            <TouchableOpacity onPress={this._onClick}>
+                {this._renderImg()}
+            </TouchableOpacity>
+            </View>
         );
     }
 }
@@ -129,7 +112,7 @@ export default class CheckMore_1 extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        overflow:'hidden'
     },
     item:{
         flexDirection: 'column',
