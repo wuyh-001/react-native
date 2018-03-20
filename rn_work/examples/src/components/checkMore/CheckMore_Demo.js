@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {CheckMore} from './../../../../src/index.js';
 import {TextInput} from 'react-native';
 
-export default class DetailsList_Demo extends Component{
+export default class CheckMore_Demo extends Component{
     constructor(props) {
         super(props);
     }
