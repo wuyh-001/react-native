@@ -12,6 +12,7 @@ import CustomKey from './js/page/my/CustomKey.js';
 
 import FolderContainer_Demo from './rn_work/examples/src/components/folderContainer/FolderContainer_Demo.js';
 import CheckMore_Demo from './rn_work/examples/src/components/checkMore/CheckMore_Demo.js';
+import Validator_Demo from './rn_work/examples/src/components/validator/Validator_Demo.js';
 
 const stackNav=StackNavigator(
     {
@@ -27,4 +28,4 @@ const stackNav=StackNavigator(
     }
 );
 
-AppRegistry.registerComponent('gitHub', () => CheckMore_Demo);
+AppRegistry.registerComponent('gitHub', () => Validator_Demo);

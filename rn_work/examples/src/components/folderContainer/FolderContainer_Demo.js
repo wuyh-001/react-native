@@ -16,11 +16,14 @@ export default class FolderContainer_Demo extends Component<{}> {
     folderClickFunc(index){
         console.log(index)
     }
+    handleFunc(){
+        console.log(123)
+    }
     render(){
         const SECTIONS1 = [
             {
                 title: '这是第一个title',
-                //content: '这是第一个content',
+                content: '这是第一个content',
                 //contentComponent:<Demo/>,
                 status:'待审核',
                 statusColor:'green'
@@ -37,6 +40,10 @@ export default class FolderContainer_Demo extends Component<{}> {
             {
                 title: '这是第三个title',
                 content: '这是第三个content',
+                errorMsg:'错误提示信息0',
+                errorMsgColor:'red',
+                handleTips:'操作',
+                handleFunc:this.handleFunc.bind(this)
             },
             {
                 title: '这是第四个title',
@@ -52,7 +59,7 @@ export default class FolderContainer_Demo extends Component<{}> {
             initiallyActiveSection:0,
             hasAccording:false,
             section:SECTIONS1,
-            clickFunc:this.folderClickFunc
+            clickFunc:this.folderClickFunc.bind(this)
         }
         let folderContainer2={
             hasImg:true,

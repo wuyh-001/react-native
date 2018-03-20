@@ -1,16 +1,19 @@
 import React,{Component} from 'react';
 import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,TouchableHighlight} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableOpacity} from 'react-native';
 import Accordion from './Accordion.js';
+
+import color from '../../config/theme/standard/color.js';
+import fontSize from '../../config/theme/standard/fonts.js';
 
 export default class FolderContainer extends Component {
     constructor(props){
         super(props)
+
         this._renderHeader=this._renderHeader.bind(this);
         this._renderContent=this._renderContent.bind(this);
         this._toggle=this._toggle.bind(this);
         this._renderImg=this._renderImg.bind(this);
-
     }
 
     _renderImg(section,index,isActive){
@@ -32,7 +35,7 @@ export default class FolderContainer extends Component {
     }
 
     _renderHeader(section,index,isActive) {
-        let icon=!isActive?require('./img/down.png'):require('./img/up.png');
+        let icon=isActive?require('./img/down.png'):require('./img/up.png');
 
         let style=this.props.imgPos=="right"?true:false;
         let styleHeader=style?styles.headerRow:styles.headerCol;
@@ -74,8 +77,8 @@ export default class FolderContainer extends Component {
         );
     }
 
-    _renderContent(section) {
-        let component,content;
+    _renderContent(section,index,bool) {
+        let component,content,showErrorMsg=false;
 
         let style=this.props.imgPos=="right"?true:false;
         let contentBottomLine=styles.contentBottomLine;
@@ -90,10 +93,28 @@ export default class FolderContainer extends Component {
             content=<Text style={styles.contentText}>{section.content}</Text>
         }
 
+        if(this.props.section[index].errorMsg){
+            showErrorMsg=true;
+        };
+
         return (
             <View style={[styles.content,{backgroundColor:this.props.contentColor},{borderBottomWidth:this.props.isShowContentLine?1:0},contentPadding,contentMargin]}>
-                {component}
-                {content}
+                {
+                    showErrorMsg?
+                        <View style={styles.errorMsContainer}>
+                            <Text style={[styles.errorMsg,{color:section.errorMsgColor}]}>{section.errorMsg}</Text>
+                            <TouchableOpacity onPress={section.handleFunc}>
+                                <Text style={styles.handle}>{section.handleTips}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View>
+                            {component}
+                            {content}
+                        </View>
+                }
+
+
             </View>
         );
     }
@@ -102,8 +123,6 @@ export default class FolderContainer extends Component {
         if(this.props.clickFunc){
             this.props.clickFunc(index)
         };
-
-
     }
 
     render() {
@@ -158,13 +177,14 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         justifyContent:'center',
         alignItems:'center',
-        borderColor:'#e3e3e5',
+        borderColor:color.borderColor.normalBorderColor
     },
     headerTitleRow:{
-        color :'#2a2f43',
+        color :color.color.titleColor,
         paddingTop:8,
         paddingBottom:5,
-        fontSize:14,
+        fontSize:fontSize.formFontSize,
+        fontFamily:'PingFangSC-Medium'
     },
     headerSubTitleRow:{
         paddingBottom:5
@@ -173,7 +193,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor:'#fff',
         justifyContent:'center',
-        borderColor:'#e3e3e5'
+        borderColor:color.borderColor.normalBorderColor
     },
     headerTitleCol:{
         marginBottom:5
@@ -187,30 +207,32 @@ const styles = StyleSheet.create({
         paddingTop:10,
         paddingBottom:10,
         borderBottomWidth:1,
-        borderColor:'#e3e3e5',
+        borderColor:color.borderColor.normalBorderColor,
         backgroundColor:'white'
     },
     content:{
         paddingTop:6,
         paddingBottom:6,
         justifyContent:'center',
-        borderColor:'#e3e3e5'
+        borderColor:color.borderColor.normalBorderColor
     },
     contentText:{
-        color:'#969696'
+        color:color.color.fillInColor
     },
     status:{
         marginRight:10
     },
     subTitle:{
-        fontSize:12,
-        color:'#c0cbcb'
+        fontSize:fontSize.percentFontSize,
+        color:color.color.explainColor,
+        fontFamily:'PingFangSC-Medium'
     },
     titleColMain:{
-        color:'#ccc',
+        color:color.color.titleColor,
         paddingTop:5,
         paddingBottom:5,
-        fontSize:14
+        fontSize:fontSize.formFontSize,
+        fontFamily:'PingFangSC-Medium'
     },
     flexContainer:{
         flex:1
@@ -230,5 +252,25 @@ const styles = StyleSheet.create({
     contentMargin:{
         marginLeft:8,
         marginRight:8
+    },
+    errorMsContainer:{
+        paddingTop:29,
+        paddingBottom:25
+    },
+    errorMsg:{
+        textAlign:'center',
+        height:20,
+        lineHeight:20,
+        color: color.color.errorColor,
+        fontSize:fontSize.formFontSize,
+        fontFamily:'PingFangSC-Medium'
+    },
+    handle:{
+        textAlign:'center',
+        color: color.color.linkColor,
+        height:20,
+        lineHeight:20,
+        fontSize:fontSize.formFontSize,
+        fontFamily:'PingFangSC-Medium'
     }
 })
