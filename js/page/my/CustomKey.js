@@ -8,11 +8,13 @@ import CheckBox from 'react-native-check-box';
 import NavigationBar from './../../common/NavigationBar.js';
 import ViewUtil from './../../util/ViewUtil.js';
 import LanguangeDao,{FLAG_LANGUAGE} from './../../expand/dao/LanguangeDao.js';
+import ArrayUitl from '../../util/ArrayUtil.js';
 
 export default class CustomKey extends Component{
     constructor(props){
         super(props)
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
+        this.changedValues=[];
         this.state={
             data:[]
         }
@@ -32,7 +34,13 @@ export default class CustomKey extends Component{
 
     onSave(){
         let {navigate,goBack}=this.props.navigation;
+        if(this.changedValues.length==0){
+            goBack();
+            return;
+        };
+        this.languageDao.save(this.state.data)
         goBack();
+
     }
     renderView(){
         if(!this.state.data || this.state.data.length===0){
@@ -64,15 +72,17 @@ export default class CustomKey extends Component{
         return views;
     }
     onClick(data){
-
+        data.checked=!data.checked;
+        ArrayUitl.updataArray(this.changedValues,data);
     }
     renderCheckBox(data){
         let leftText=data.name;
         return(
             <CheckBox
-                style={{flex:1}}
+                style={{flex:1,padding:10}}
                 onClick={()=>this.onClick(data)}
                 leftText={leftText}
+                isChecked={data.checked}
                 checkedImage={<Image source={require('./img/ic_check_box.png')} style={{tintColor:'#6495ed'}}/>}
                 unCheckedImage={<Image source={require('./img/ic_check_box_outline_blank.png')} style={{tintColor:'#6495ed'}}/>}
             />
@@ -115,7 +125,7 @@ const styles=StyleSheet.create({
     },
     line:{
         height:1,
-        backgroundColor:'gray'
+        backgroundColor:'darkgray'
     },
     item:{
         flexDirection:'row',
