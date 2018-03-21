@@ -28,4 +28,4 @@ const stackNav=StackNavigator(
     }
 );
 
-AppRegistry.registerComponent('gitHub', () => stackNav);
+AppRegistry.registerComponent('gitHub', () => Validator_Demo);

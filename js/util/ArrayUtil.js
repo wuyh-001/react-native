@@ -18,4 +18,26 @@ export default class ArrayUtil {
         };
         array.push(item);
     }
+    /*
+    * 克隆一个数组
+    * */
+    static clone(arr){
+        if(!arr){
+            return []
+        };
+        let newArray=[];
+        for(let i=0;i<arr.length;i++){
+            newArray[i]=arr[i]
+        };
+        return newArray;
+    }
+    /*
+    * 判断两个数组是否完全相同
+    * */
+    static isEqual(arr1,arr2){
+
+    }
+
+
+
 }

@@ -77,7 +77,7 @@ export default class FolderContainer extends Component {
         );
     }
 
-    _renderContent(section,index,bool) {
+    _renderContent(section,index) {
         let component,content,showErrorMsg=false;
 
         let style=this.props.imgPos=="right"?true:false;

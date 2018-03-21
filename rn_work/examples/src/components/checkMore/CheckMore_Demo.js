@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {CheckMore} from './../../../../src/index.js';
-import {TextInput} from 'react-native';
+import {TextInput,View} from 'react-native';
 
 export default class CheckMore_Demo extends Component{
     constructor(props) {
@@ -24,14 +24,22 @@ export default class CheckMore_Demo extends Component{
         let checkMore={
             limitNum:3,
             data:detailsListData,
-            //errorMsg:'错误提示信息',
-            //errorMsgColor:'blue',
-            //handleTips:'操作',
-            //handleFunc:this.handleFunc,
+            errorMsg:'错误提示信息',
+            errorMsgColor:'blue',
+            handleTips:'操作',
+            handleFunc:this.handleFunc,
+            clickFun:this.callBackFun
+        }
+        let checkMore1={
+            limitNum:3,
+            data:detailsListData,
             clickFun:this.callBackFun
         }
         return(
+            <View style={{flex:1}}>
             <CheckMore  {...checkMore}/>
+            <CheckMore  {...checkMore1}/>
+                </View>
         );
     }
 }

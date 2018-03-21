@@ -2,7 +2,7 @@
  * Created by xiaowuzai on 2018/3/2.
  */
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,Image,TouchableOpacity,ScrollView} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableOpacity,ScrollView,Alert} from 'react-native';
 import CheckBox from 'react-native-check-box';
 
 import NavigationBar from './../../common/NavigationBar.js';
@@ -41,6 +41,22 @@ export default class CustomKey extends Component{
         this.languageDao.save(this.state.data)
         goBack();
 
+    }
+    onBack(){
+        let {navigate,goBack}=this.props.navigation;
+        if(this.changedValues.length==0){
+            goBack();
+            return;
+        };
+        Alert.alert(
+            '提示',
+            '要保存修改吗？',
+            [
+                {text: '不保存', onPress: () => goBack(), style: 'cancel'},
+                {text: '保存', onPress: () => this.onSave()},
+            ],
+            { cancelable: false }
+        )
     }
     renderView(){
         if(!this.state.data || this.state.data.length===0){
@@ -98,7 +114,7 @@ export default class CustomKey extends Component{
                         backgroundColor:'#ee6363'
                     }}
                     leftButton={
-                        ViewUtil.getLeftButton(()=>{this.onSave()})
+                        ViewUtil.getLeftButton(()=>{this.onBack()})
                     }
                     rightButton={
                         <TouchableOpacity onPress={()=>{this.onSave()}}>

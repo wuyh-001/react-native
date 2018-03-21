@@ -1,145 +1,155 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,ListView,Animated,Easing,TouchableOpacity} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableOpacity,Platform,UIManager,LayoutAnimation} from 'react-native';
+import color from '../../config/theme/standard/color.js';
+import fontSize from '../../config/theme/standard/fonts.js';
 
-const ds = new ListView.DataSource({rowHasChanged:(r1,r2)=>r1!==r2});
-var getContainerHeight=[];
 
-export default class DetailsList extends Component {
+export default class CheckMore_1 extends Component {
     constructor(props){
         super(props)
         this.state = {
-            data: ds.cloneWithRows([]),
-            dataArr:props.detailsListData,
+            data:props.data,
+            errorMsg:props.errorMsg,
+            limitNum:props.limitNum,
             isShow:true,
             isDown:true,
-            containerHeight:new Animated.Value(0),
-            num:3,
-            flag:true
+            showErrorMsg:false,
+        };
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true)
         }
         this._renderItem=this._renderItem.bind(this);
         this._renderImg=this._renderImg.bind(this);
-        this._itemLayout=this._itemLayout.bind(this);
-        this._containerLayout=this._containerLayout.bind(this);
         this._onClick=this._onClick.bind(this);
     }
 
-    componentDidMount(){
-        this.setState({
-            data:ds.cloneWithRows(this.state.dataArr)
-        });
-    }
 
-    _renderItem(rowData){
+    _renderItem(rowData,startNum,length){
         let subTitleComponent,subTitle,titleComponent,title;
-        if(rowData.titleComponent){
-            titleComponent=rowData.titleComponent;
+        let rowArr=[];
+
+        for(let i=startNum;i<length;i++){
+            if(rowData[i].titleComponent){
+                titleComponent=<View>rowData[i].titleComponent</View>;
+            };
+            if(rowData[i].title){
+                title=<Text style={styles.title}>{rowData[i].title}</Text>
+            };
+            if(rowData[i].subTitleComponent){
+                subTitleComponent=<View>rowData[i].subTitleComponent</View>;
+            };
+            if(rowData[i].subTitle){
+                subTitle=<Text style={styles.subTitle}>{rowData[i].subTitle}</Text>
+            };
+            rowArr.push(
+                <View style={[styles.item]} key={i}>
+                    {title}
+                    {titleComponent}
+                    {subTitle}
+                    {subTitleComponent}
+                </View>
+            );
         };
-        if(rowData.title){
-            title=<Text style={styles.title}>{rowData.title}</Text>
-        };
-        if(rowData.subTitleComponent){
-            subTitleComponent=rowData.subTitleComponent;
-        };
-        if(rowData.subTitle){
-            subTitle=<Text style={styles.subTitle}>{rowData.subTitle}</Text>
-        };
-        return (
-            <View style={styles.item} onLayout={this._itemLayout}>
-                {title}
-                {titleComponent}
-                {subTitle}
-                {subTitleComponent}
-            </View>
-        );
+        return  rowArr;
     }
     _renderImg(){
         let icon=this.state.isDown?require('./img/down.png'):require('./img/up.png');
         let imgComponent;
         imgComponent=<Image style={styles.img} source={icon}></Image>
         return (
-            <View style={styles.imgContainer}>
+            <View style={styles.imgContainer} >
                 {imgComponent}
             </View>
         );
     };
-    _itemLayout(event){
-        //获取每一个item的高度，放到集合中
-        getContainerHeight.push(event.nativeEvent.layout.height);
-    }
-    _containerLayout(event){
-        let height=0;
-        for(let i=0;i<this.state.num;i++){
-            height+=getContainerHeight[i]
-        };
-        //取到集合中的前num项的值，赋值给父级容器
-        if(this.state.isDown){
-            this.state.containerHeight.setValue(height);
-        };
-    }
+
+
     _onClick(){
-        let height=0;
-        let len=0;
-        if(this.state.flag){
-            len=this.state.dataArr.length;
-            for(let i=0;i<len;i++){
-                height+=getContainerHeight[i]
+        LayoutAnimation.configureNext({
+            duration: 100, //持续时间
+            create: { // 视图创建
+                type: LayoutAnimation.Types.linear,//linear,spring
+                property: LayoutAnimation.Properties.scaleXY,// opacity、scaleXY
+            },
+            update: { // 视图更新
+                type: LayoutAnimation.Types.easeInEaseOut,
+            },
+        });
+        if(this.state.errorMsg){
+            if(this.state.isDown){
+                this.setState({isDown:false,showErrorMsg:true});
+            }else{
+                this.setState({isDown:true,showErrorMsg:false});
             };
-            this.setState({isDown:false,flag:false});
-            Animated.timing(this.state.containerHeight, {
-                toValue: height,
-                duration: 500,
-                easing: Easing.linear// 线性的渐变函数
-            }).start()
-
         }else{
-            len=this.state.num;
-            for(let i=0;i<len;i++){
-                height+=getContainerHeight[i]
+            if(this.state.isDown){
+                this.setState({isDown:false});
+            }else{
+                this.setState({isDown:true});
             };
-            this.setState({isDown:true,flag:true});
-            Animated.timing(this.state.containerHeight, {
-                toValue: height,
-                duration: 500,
-                easing: Easing.linear// 线性的渐变函数
-            }).start()
-
         };
+        this.props.clickFun(this.state.isDown);
     }
+
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Animated.View style={[{height:this.state.containerHeight}]} onLayout={this._containerLayout}>
-                    <ListView
-                        enableEmptySections={true}
-                        dataSource = {this.state.data}
-                        renderRow={this._renderItem}
-                        />
-                </Animated.View>
-                <TouchableOpacity onPress={this._onClick}>
-                    {this._renderImg()}
+        let errorMsg;
+        if(this.state.errorMsg){
+            errorMsg=<View style={styles.errorMsContainer}>
+                <Text style={[styles.errorMsg,{color:this.props.errorMsgColor}]}>{this.props.errorMsg}</Text>
+                <TouchableOpacity onPress={this.props.handleFunc}>
+                    <Text style={styles.handle}>{this.props.handleTips}</Text>
                 </TouchableOpacity>
+            </View>
+        }
+        return (
+        <View style={{flex:1}}>
+            <View style={[styles.container]}>
+                <View>
+                    { this._renderItem(this.state.data,0,this.state.limitNum)}
+                </View>
+                {this.state.showErrorMsg&&!this.state.isDown?errorMsg:null}
+                {
+                    !this.state.showErrorMsg&&!this.state.isDown?
+                        <View>
+                            { this._renderItem(this.state.data,this.state.limitNum,this.state.data.length)}
+                        </View>
+                    :null
+                }
+            </View>
+            <TouchableOpacity onPress={this._onClick} activeOpacity={1}>
+                {this._renderImg()}
+            </TouchableOpacity>
             </View>
         );
     }
+}
+CheckMore_1.propTypes={
+    data:PropTypes.array,
+    limitNum:PropTypes.number,
+    clickFun:PropTypes.func,
+    errorMsg:PropTypes.string,
+    errorMsgColor:PropTypes.string,
+    handleTips:PropTypes.string,
+    handleFunc:PropTypes.func
 
 }
-DetailsList.propTypes={
-    detailsListData:PropTypes.array
+CheckMore_1.defaultProps={
+    limitNum:3,
+    errorMsgColor:color.color.errorColor
 }
 
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
-        flexDirection: 'column'
+        overflow:'hidden'
     },
     item:{
         flexDirection: 'column',
         backgroundColor:'#fff',
         justifyContent:'center',
-        borderColor:'#e3e3e5',
+        borderColor:color.borderColor.normalBorderColor,
         borderBottomWidth:1,
         paddingLeft:13,
         paddingRight:14,
@@ -147,13 +157,13 @@ const styles = StyleSheet.create({
         paddingBottom:6
     },
     title:{
-        fontSize:14,
-        color:'#333',
+        fontSize:fontSize.formFontSize,
+        color :color.color.titleColor,
         fontFamily:'PingFangSC-Medium'
     },
     subTitle:{
-        fontSize:12,
-        color:'#c0cbcb',
+        fontSize:fontSize.percentFontSize,
+        color:color.color.explainColor,
         fontFamily:'PingFangSC-Medium'
     },
     imgContainer:{
@@ -161,12 +171,36 @@ const styles = StyleSheet.create({
         paddingBottom:15,
         alignItems:'center',
         backgroundColor:'#fff',
-        borderColor:'#e3e3e5',
+        borderColor:color.borderColor.normalBorderColor,
         borderBottomWidth:1,
     },
     img:{
         width:15,
         height:15
+    },
+    errorMsg:{
+        fontSize:fontSize.formFontSize,
+        color:color.color.errorColor,
+        fontFamily:'PingFangSC-Medium',
+        paddingLeft:13,
+        paddingRight:14,
+        alignItems:'center',
+        textAlign:'center'
+    },
+    errorMsContainer:{
+        paddingTop:4,
+        paddingBottom:3,
+        borderColor:color.borderColor.normalBorderColor,
+        borderBottomWidth:1,
+        backgroundColor:'#fff'
+    },
+    handle:{
+        textAlign:'center',
+        color: color.color.linkColor,
+        height:20,
+        lineHeight:20,
+        fontSize:fontSize.formFontSize,
+        fontFamily:'PingFangSC-Medium'
     }
 });
 
