@@ -8,13 +8,14 @@ import CheckBox from 'react-native-check-box';
 import NavigationBar from './../../common/NavigationBar.js';
 import ViewUtil from './../../util/ViewUtil.js';
 import LanguangeDao,{FLAG_LANGUAGE} from './../../expand/dao/LanguangeDao.js';
-import ArrayUitl from '../../util/ArrayUtil.js';
+import ArrayUtil from '../../util/ArrayUtil.js';
 
 export default class CustomKey extends Component{
     constructor(props){
         super(props)
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
         this.changedValues=[];
+        this.isRemove=this.props.navigation.state.params.isRemove
         this.state={
             data:[]
         }
@@ -37,6 +38,11 @@ export default class CustomKey extends Component{
         if(this.changedValues.length==0){
             goBack();
             return;
+        };
+        if(this.isRemove){
+            for(let i=0;i<this.changedValues.length;i++){
+                ArrayUtil.remove(this.state.data,this.changedValues[i])
+            };
         };
         this.languageDao.save(this.state.data)
         goBack();
@@ -88,17 +94,20 @@ export default class CustomKey extends Component{
         return views;
     }
     onClick(data){
-        data.checked=!data.checked;
-        ArrayUitl.updataArray(this.changedValues,data);
+        if(!this.isRemove){
+            data.checked=!data.checked
+        };
+        ArrayUtil.updataArray(this.changedValues,data);
     }
     renderCheckBox(data){
         let leftText=data.name;
+        let checked=this.isRemove?false:data.checked;
         return(
             <CheckBox
                 style={{flex:1,padding:10}}
                 onClick={()=>this.onClick(data)}
                 leftText={leftText}
-                isChecked={data.checked}
+                isChecked={checked}
                 checkedImage={<Image source={require('./img/ic_check_box.png')} style={{tintColor:'#6495ed'}}/>}
                 unCheckedImage={<Image source={require('./img/ic_check_box_outline_blank.png')} style={{tintColor:'#6495ed'}}/>}
             />
@@ -106,10 +115,12 @@ export default class CustomKey extends Component{
     }
 
     render(){
+        let title=this.props.navigation.state.params.title;
+        let btnTxt=this.props.navigation.state.params.btnTxt;
         return (
             <View style={styles.container}>
                 <NavigationBar
-                    title={'自定义标签'}
+                    title={title}
                     statusBar={{
                         backgroundColor:'#ee6363'
                     }}
@@ -119,7 +130,7 @@ export default class CustomKey extends Component{
                     rightButton={
                         <TouchableOpacity onPress={()=>{this.onSave()}}>
                              <View>
-                                <Text style={styles.title}>Save</Text>
+                                <Text style={styles.title}>{btnTxt}</Text>
                              </View>
                         </TouchableOpacity>
                     }

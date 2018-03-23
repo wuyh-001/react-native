@@ -2,7 +2,7 @@
  * Created by xiaowuzai on 2018/3/5.
  */
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,Image,TouchableOpacity,ScrollView,AsyncStorage} from 'react-native';
+import {AsyncStorage} from 'react-native';
 import keys from './../../../res/data/keys.json';
 
 export var FLAG_LANGUAGE={flag_language:'flag_language_language',flag_key:'flag_language_key'}

@@ -27,7 +27,9 @@ export default class MyPage extends Component{
                         </TouchableOpacity>
                     }
                 />
-                <Text onPress={()=>this.props.navigate('CustomKey')}>自定义标签</Text>
+                <Text onPress={()=>this.props.navigate('CustomKey',{isRemove:false,title:'自定义标签',btnTxt:'保存'})}>自定义标签</Text>
+                <Text onPress={()=>this.props.navigate('SortKeyPage')}>标签排序</Text>
+                <Text onPress={()=>this.props.navigate('CustomKey',{isRemove:true,title:'标签移除',btnTxt:'删除'})}>标签移除</Text>
             </View>
         )
     }
