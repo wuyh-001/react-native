@@ -14,6 +14,7 @@ export default class DataRepository{
                 .then(result=>{
                     if(!result){
                         reject(new Error('数据为空'))
+                        console.log("")
                         return
                     };
                     resolve(result);
