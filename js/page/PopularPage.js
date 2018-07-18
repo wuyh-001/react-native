@@ -4,9 +4,7 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View,Image,TouchableOpacity,TextInput} from 'react-native';
 
-import DataRepository from '../expand/dao/DataRepository.js';
-const URL='https://api.github.com/search/repositories?q=';
-const QUERY_STR='&sort=starts';
+import DataRepository,{FLAG_STORAGE} from '../expand/dao/DataRepository.js';
 
 import NavigationBar from '../common/NavigationBar.js';
 import LanguangeDao,{FLAG_LANGUAGE} from '../expand/dao/LanguangeDao.js';
@@ -20,7 +18,7 @@ export default class PopularPage extends Component{
         this.state={
             language:[]
         }
-        this.dataRepository=new DataRepository();
+        this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
     };
     componentDidMount(){
@@ -32,23 +30,22 @@ export default class PopularPage extends Component{
         }).catch(e=>console.log(e))
     }
 
-    genUrl(key){
-        return URL+key+QUERY_STR
-    };
     render(){
+        let navigate=this.props.navigate
         let content=this.state.language.length>0?<ScrollableTabView
             renderTabBar={() => <ScrollableTabBar/>}
             initialPage={1}
             >
             {this.state.language.map((result,i,arr)=>{
                 let lan=arr[i];
-                return lan.checked?<PopularTab tabLabel={lan.name} key={i}/>:null
+                return lan.checked?<PopularTab tabLabel={lan.name} key={i} navigate={navigate}/>:null
             })}
         </ScrollableTabView>:null
+
         return (
             <View style={styles.container}>
                 <NavigationBar
-                    title={'PopularPage'}
+                    title={'最热'}
                     statusBar={{
                         backgroundColor:'#ee6363'
                     }}

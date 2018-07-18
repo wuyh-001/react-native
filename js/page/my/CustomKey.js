@@ -13,7 +13,7 @@ import ArrayUtil from '../../util/ArrayUtil.js';
 export default class CustomKey extends Component{
     constructor(props){
         super(props)
-        this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
+        this.languageDao=new LanguangeDao(this.props.navigation.state.params.flag);
         this.changedValues=[];
         this.isRemove=this.props.navigation.state.params.isRemove
         this.state={
@@ -160,3 +160,9 @@ const styles=StyleSheet.create({
         height:30
     }
 });
+
+/*
+react-native bundle --entry-file index.ios.js --bundle-output ./ios/bundle/index.ios.jsbundle --platform ios
+--assets-dest ./ios/bundle --dev false
+
+ */

@@ -24,11 +24,10 @@ export default class SortKeyPage extends Component{
         }
     };
     static navigationOptions={
-        //headerTitle:'PopularPage'
         header:null
     }
     componentDidMount(){
-        this.LanguangeDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
+        this.LanguangeDao=new LanguangeDao(this.props.navigation.state.params.flag);
         this.loadData();
     }
     loadData(){
@@ -89,10 +88,12 @@ export default class SortKeyPage extends Component{
         };
     }
     render(){
+        let title=this.props.navigation.state.params.title;
+        let btnTxt=this.props.navigation.state.params.btnTxt;
         return (
             <View style={styles.container}>
                 <NavigationBar
-                    title={'我的'}
+                    title={title}
                     statusBar={{
                         backgroundColor:'#ee6363'
                     }}
@@ -101,7 +102,7 @@ export default class SortKeyPage extends Component{
                     }
                     rightButton={
                         <TouchableHighlight style={{alignItems:'center'}} onPress={()=>{this.onSave()}}>
-                             <Text style={styles.title}>保存</Text>
+                             <Text style={styles.title}>{btnTxt}</Text>
                         </TouchableHighlight>
                     }
                 />

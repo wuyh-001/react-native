@@ -6,7 +6,7 @@ import {StyleSheet,Text,View,Image,Platform,StatusBar} from 'react-native';
 import PropTypes from 'prop-types';
 
 const NAV_BAR_HEIGHT_ANDROID=50;
-const NAV_BAR_HEIGHT_IOS=40;
+const NAV_BAR_HEIGHT_IOS=55;
 const STATUS_BAR_HEIGHT=20; //状态栏的高度
 const StatusBarShape={
     backgroundColor:PropTypes.string,
@@ -63,7 +63,7 @@ const styles=StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         height:Platform.OS=='ios'?NAV_BAR_HEIGHT_IOS:NAV_BAR_HEIGHT_ANDROID,
-        backgroundColor:'#ee6363',
+        backgroundColor:'#2196f3',
         flexDirection:'row',
         paddingLeft:10,
         paddingRight:10
@@ -78,7 +78,7 @@ const styles=StyleSheet.create({
         bottom:0
     },
     title:{
-        fontSize:20,
+        fontSize:16,
         color:'white'
     },
     statusBar:{

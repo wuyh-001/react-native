@@ -1,6 +1,0 @@
--API:
-    - 'CountDown': 'api/countDown.md',
-    - 'SwipeAction': 'api/SwipeAction.md',
-    - 'FolderContainer': 'api/folderContanier.md',
-    - 'DetailsList': 'api/detailsList.md',
-

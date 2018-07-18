@@ -11,9 +11,6 @@ import HomePage from './js/page/HomePage.js';
 import CustomKey from './js/page/my/CustomKey.js';
 import SortKeyPage from './js/page/my/SortKeyPage.js';
 
-import FolderContainer_Demo from './rn_work/examples/src/components/folderContainer/FolderContainer_Demo.js';
-import CheckMore_Demo from './rn_work/examples/src/components/checkMore/CheckMore_Demo.js';
-import Validator_Demo from './rn_work/examples/src/components/validator/Validator_Demo.js';
 
 const stackNav=StackNavigator(
     {

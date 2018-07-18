@@ -3,21 +3,32 @@
  */
 import React,{Component} from 'react';
 import PropTypes from "prop-types";
-import {StyleSheet,Text,View,Image,TouchableHighlight,TouchableOpacity,AsyncStorage,TextInput} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableHighlight,TouchableOpacity,AsyncStorage,TextInput,PanResponder,processColor} from 'react-native';
 import Toast,{DURATION} from 'react-native-easy-toast';
 
 import NavigationBar from './../common/NavigationBar.js';
 
 const KEY='text';
 
+
+var CIRCLE_SIZE = 80;
+var CIRCLE_COLOR = 'blue';
+var CIRCLE_HIGHLIGHT_COLOR = 'green';
+
 export default class WelcomePage extends Component{
     constructor(props){
         super(props)
+
+        this._panResponder={}
+        this._previousLeft= 0
+        this._previousTop=0
+        this._circleStyles={}
     }
     componentDidMount(){
         this.timer=setTimeout(()=>{
             this.props.navigation.navigate('homePage')
         },500)
+        this._updatePosition();
     }
     componentWillUnmount(){
         this.timer&&clearTimeout(this.timer)
@@ -25,6 +36,69 @@ export default class WelcomePage extends Component{
 
     static navigationOptions={
         header:null
+    }
+
+    componentWillMount=()=>{
+        this._panResponder = PanResponder.create({
+            //在触摸事件开始询问组件是否需要成为事件响应者
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            //在触摸进行过程中询问组件是否要成为响应者
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            //表示申请成功，组件成为了事件处理响应者
+            onPanResponderGrant: this._handlePanResponderGrant,
+            //表示触摸手指移动的事件
+            onPanResponderMove: this._handlePanResponderMove,
+            //表示触摸完成
+            onPanResponderRelease: this._handlePanResponderEnd,
+            //同意释放响应者角色
+            onPanResponderTerminate: this._handlePanResponderEnd,
+        });
+        this._previousLeft = 20;
+        this._previousTop = 84;
+        this._circleStyles = {
+            style: {
+                left: this._previousLeft,
+                top: this._previousTop
+            }
+        };
+    }
+
+
+    _highlight=()=>{
+        const circle = this.circle;
+        circle && circle.setNativeProps({
+            style: {
+                backgroundColor: processColor(CIRCLE_HIGHLIGHT_COLOR)
+            }
+        });
+    }
+
+    _unHighlight=()=>{
+        const circle = this.circle;
+        circle && circle.setNativeProps({
+            style: {
+                backgroundColor: processColor(CIRCLE_COLOR)
+            }
+        });
+    }
+
+    _updatePosition=()=>{
+        this.circle && this.circle.setNativeProps(this._circleStyles);
+    }
+
+    _handlePanResponderGrant=(e, gestureState)=>{
+        console.log(gestureState)
+        this._highlight();
+    }
+    _handlePanResponderMove=(e, gestureState)=>{
+        this._circleStyles.style.left = this._previousLeft + gestureState.dx;
+        this._circleStyles.style.top = this._previousTop + gestureState.dy;
+        this._updatePosition();
+    }
+    _handlePanResponderEnd=(e, gestureState)=>{
+        this._unHighlight();
+        this._previousLeft += gestureState.dx;
+        this._previousTop += gestureState.dy;
     }
 
     onSave(){
@@ -84,6 +158,15 @@ export default class WelcomePage extends Component{
                     <Text onPress={()=>this.onRemove()}>remove</Text>
                     <Text onPress={()=>this.onFetch()}>fetch</Text>
                 </View>
+
+                <View
+                    ref={(circle) => {this.circle = circle}}
+                    style={styles.circle}
+                    {...this._panResponder.panHandlers}
+                />
+
+
+
                 <Toast ref={(toast)=>{this.toast=toast}}/>
             </View>
         )
@@ -95,5 +178,14 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft:10,
         paddingRight:10
+    },
+    circle: {
+        width: CIRCLE_SIZE,
+        height: CIRCLE_SIZE,
+        borderRadius: CIRCLE_SIZE / 2,
+        backgroundColor: CIRCLE_COLOR,
+        position: 'absolute',
+        left: 0,
+        top: 0,
     }
 });
