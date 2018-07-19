@@ -25,6 +25,7 @@
     "babel-jest": "22.1.0",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.1.4",
+    "react-native-parallax-scroll-view": "^0.21.3",
     "react-test-renderer": "16.2.0"
   },
   "jest": {

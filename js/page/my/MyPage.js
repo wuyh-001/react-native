@@ -17,6 +17,41 @@ export default class MyPage extends Component{
 
     };
     clickEvent=(tab)=>{
+        let TargetComponent,params={};
+
+        switch(tab){
+            case MORE_MENU.Custom_Language:
+                TargetComponent='CustomKey';
+                params={isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                break;
+            case MORE_MENU.Custom_Key:
+                TargetComponent='CustomKey';
+                params={isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                break;
+            case MORE_MENU.Remove_Key:
+                TargetComponent='CustomKey';
+
+                params={isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key}
+                break;
+            case MORE_MENU.Sort_Key:
+                TargetComponent='SortKeyPage';
+                params={title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                break;
+            case MORE_MENU.Sort_Language:
+                TargetComponent='SortKeyPage';
+                params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                break;
+            case MORE_MENU.Custom_Theme:
+                break;
+            case MORE_MENU.About_Author:
+                break;
+            case MORE_MENU.About:
+                TargetComponent='AboutPage';
+                break;
+        }
+        if(TargetComponent){
+            this.props.navigate(TargetComponent,params)
+        }
 
     }
     getItem=(callBack,icon,text)=>{
@@ -28,13 +63,6 @@ export default class MyPage extends Component{
                               title={'我的'}
                               style={{backgroundColor:'#2196f3'}}
                           />
-        let bq=<View>
-                    <Text style={styles.text} onPress={()=>this.props.navigate('CustomKey',{isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key})}>自定义标签</Text>
-                    <Text style={styles.text} onPress={()=>this.props.navigate('SortKeyPage',{title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key})}>标签排序</Text>
-                    <Text style={styles.text} onPress={()=>this.props.navigate('CustomKey',{isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key})}>标签移除</Text>
-                    <Text style={styles.text} onPress={()=>this.props.navigate('CustomKey',{isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language})}>自定义语言</Text>
-                    <Text style={styles.text} onPress={()=>this.props.navigate('SortKeyPage',{title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language})}>语言排序</Text>
-                </View>
         let that=this;
         return (
             <View style={GlobalStyles.root_container}>
@@ -55,7 +83,7 @@ export default class MyPage extends Component{
                     <View style={GlobalStyles.line} />
                     {
                         that.getItem(
-                            ()=>this.clickEvent(MORE_MENU.About),
+                            ()=>this.clickEvent(MORE_MENU.Custom_Language),
                             require('./img/ic_custom_language.png'),
                             '自定义语言'
                         )

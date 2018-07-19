@@ -23,15 +23,26 @@ export default class WelcomePage extends Component{
         this._previousLeft= 0
         this._previousTop=0
         this._circleStyles={}
+
+        this.state={
+            isReciprocal:false,//是否是倒数
+            initVal:0,
+            endVal:60,
+            stepVal:3,
+            time:200
+        }
     }
     componentDidMount(){
         this.timer=setTimeout(()=>{
             this.props.navigation.navigate('homePage')
         },500)
         this._updatePosition();
+
+
     }
     componentWillUnmount(){
         this.timer&&clearTimeout(this.timer)
+        this.counterTimer&& clearInterval(this.counterTimer)
     }
 
     static navigationOptions={
@@ -133,7 +144,23 @@ export default class WelcomePage extends Component{
         })
     }
 
+    startTime=()=>{
+        let {isReciprocal,initVal,endVal,stepVal,time}=this.state;
+        let that=this;
+        this.counterTimer&& clearInterval(this.counterTimer);
+        this.counterTimer=setInterval(function(){
+            if(initVal<endVal){
+                that.setState({initVal:initVal+stepVal})
+            }else if(initVal>=endVal){
+                that.counterTimer&& clearInterval(this.counterTimer)
+            };
+        },time);
+        return <Text style={{fontSize:30,color:'#ff7b7c',margin:100}}>{initVal}</Text>
+
+    }
+
     render(){
+
         return (
             <View style={{flex:1}}>
                 <NavigationBar
@@ -165,7 +192,7 @@ export default class WelcomePage extends Component{
                     {...this._panResponder.panHandlers}
                 />
 
-
+                {this.startTime()}
 
                 <Toast ref={(toast)=>{this.toast=toast}}/>
             </View>

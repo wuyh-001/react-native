@@ -53,7 +53,7 @@ NavigationBar.propTypes={
 
 NavigationBar.defaultProps={
     statusBar:{
-        barStyle:'light-content',
+        //barStyle:'light-content',
         hidden:false
     }
 }

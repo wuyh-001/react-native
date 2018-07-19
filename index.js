@@ -10,7 +10,7 @@ import HomePage from './js/page/HomePage.js';
 
 import CustomKey from './js/page/my/CustomKey.js';
 import SortKeyPage from './js/page/my/SortKeyPage.js';
-
+import AboutPage from './js/page/about/AboutPage.js'
 
 const stackNav=StackNavigator(
     {
@@ -25,6 +25,9 @@ const stackNav=StackNavigator(
         },
         SortKeyPage:{
             screen:SortKeyPage
+        },
+        AboutPage:{
+            screen:AboutPage
         }
     }
 );

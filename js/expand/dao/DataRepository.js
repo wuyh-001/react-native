@@ -2,7 +2,7 @@
  * Created by xiaowuzai on 2018/2/1.
  */
 import {AsyncStorage} from 'react-native';
-export var FLAG_STORAGE={flag_popular:'popular',flag_trending:'trending'};
+export var FLAG_STORAGE={flag_popular:'popular',flag_trending:'trending',flag_my:'my'};
 import GitHubTrending from 'GitHubTrending';
 export default class DataRepository{
     constructor(flag){
