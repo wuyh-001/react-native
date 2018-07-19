@@ -10,6 +10,15 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {MORE_MENU} from './../../common/MoreMenu.js';
 import GlobalStyles from './../../../res/styles/GlobalStyles.js';
 
+import RespositoryCell from './../../common/RespositoryCell.js';
+
+
+import FavouriteDao from '../../expand/dao/FavouriteDao.js';
+import {FLAG_STORAGE} from './../../expand/dao/DataRepository.js';
+import ProjectModel from '../../modal/ProjectModel.js';
+import Utils from '../../util/Utils.js';
+
+
 export var FLAG_ABOUT={flag_about:'about',flag_about_me:'about_me'};
 
 export default class AboutCommon{
@@ -17,15 +26,64 @@ export default class AboutCommon{
         this.props=props;
         this.updateState=updateState;
         this.flag_about=flag_about;
+        this.repositories=[];
+        this.favouriteKeys=null;
+        this.favouriteDao=new FavouriteDao(FLAG_STORAGE.flag_popular);
     }
     //通知数据发生改变 items为改变之后的数据
     noNotifyDataChanged(items){
-
+        this.updateFavourite(items)
     }
 
-    //
-    updateFavourite(repositories){
+    //更新项目的用户收藏状态
+    async updateFavourite(repositories){
+        if(repositories){
+            this.repositories=repositories
+        };
+        if(!this.repositories){
+           return
+        };
+        if(!this.favouriteKeys){
+            this.favouriteKeys= await this.favouriteDao.getFavouriteKeys()
+        };
+        let projectModel=[];
+        let items=this.repositories;
+        for(let i=0;i<items.length;i++){
+            projectModel.push({
+                item:items[i].item?items[i].item:items[i],
+                isFavourite:Utils.checkFavourite(items[i],this.favouriteKeys?this.favouriteKeys:[])
+            })
+        };
+        this.updateState({projectModel:projectModel})
+    }
 
+    onFavourite(item,isFavourite){
+        if(isFavourite){
+            favouriteDao.saveFavouriteItem(item.id.toString(),JSON.stringify(item))
+        }else{
+            favouriteDao.removeFavouriteItem(item.id.toString())
+        };
+    }
+
+    renderRepository(projectModel){
+        if(!projectModel || projectModel.length==0){
+            return null;
+        };
+        let views=[];
+        for(let i=0;i<projectModel.length;i++){
+            views.push(
+                <RespositoryCell
+                    projectModel={projectModel[i]}
+                    key={projectModel[i].item.id}
+                    onSelect={()=>{
+                        navigate('RepositoryDetail',{data:projectModel[i]})
+                    }}
+                    onFavourite={(item,isFavourite)=>{
+                        this.onFavourite(item,isFavourite)
+                    }}
+                />
+            )
+        };
     }
 
     getParallaxConfig=(params)=>{
@@ -36,7 +94,7 @@ export default class AboutCommon{
                 <Image source={{uri: params.backgroundImg,
                                     width: window.width,
                                     height: PARALLAX_HEADER_HEIGHT}}/>
-                <View style={{position: 'absolute',
+                 <View style={{position: 'absolute',
                                   top: 0,
                                   width: window.width,
                                   backgroundColor: 'rgba(0,0,0,0.1)',
