@@ -10,12 +10,17 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {MORE_MENU} from './../../common/MoreMenu.js';
 import GlobalStyles from './../../../res/styles/GlobalStyles.js';
 import AboutCommon,{FLAG_ABOUT} from './AboutCommon.js';
+import config from './../../../res/data/config.json';
+import AboutAuthorPage from './AboutAuthorPage.js';
 
 
 export default class AboutPage extends Component {
     constructor(props) {
         super(props);
-        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about)
+        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about,config)
+        this.state={
+            projectModal:[]
+        }
     }
 
     static navigationOptions = {
@@ -25,6 +30,10 @@ export default class AboutPage extends Component {
 
     updateState=(dic)=>{
         this.setState(dic)
+    }
+
+    componentDidMount(){
+        this.aboutCommon.componentDidMount();
     }
 
     clickEvent=(tab)=>{
@@ -56,6 +65,7 @@ export default class AboutPage extends Component {
     render() {
         let that=this;
         let configView=<View>
+                            {that.aboutCommon.renderRepository(that.state.projectModel)}
                             {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.WebSite)},require('./../../../res/images/ic_computer.png'),MORE_MENU.WebSite,{tintColor:'#2196f3'})}
                             <View style={GlobalStyles.line} />
                             {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.About_Author)},require('./../my/img/ic_insert_emoticon.png'),MORE_MENU.About_Author,{tintColor:'#2196f3'})}

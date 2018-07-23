@@ -19,7 +19,7 @@ export default class RepositoryUtils{
         var arr=[];
         for(var value of itemMap.values()){
             arr.push(value);
-            this.aboutCommon
+            this.aboutCommon.noNotifyDataChanged(arr)
         };
     }
     //获取制定URL下的数据
@@ -37,7 +37,7 @@ export default class RepositoryUtils{
                     this.updateData(url,item);
                 }
             }).catch(err=>{
-
+                console.log(err)
             })
     }
     //批量获取数据

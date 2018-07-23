@@ -17,22 +17,38 @@ import FavouriteDao from '../../expand/dao/FavouriteDao.js';
 import {FLAG_STORAGE} from './../../expand/dao/DataRepository.js';
 import ProjectModel from '../../modal/ProjectModel.js';
 import Utils from '../../util/Utils.js';
-
+import RepositoryUtils from './../../expand/dao/RepositoryUtils.js';
 
 export var FLAG_ABOUT={flag_about:'about',flag_about_me:'about_me'};
 
 export default class AboutCommon{
-    constructor(props,updateState,flag_about) {
+    constructor(props,updateState,flag_about,config) {
         this.props=props;
         this.updateState=updateState;
         this.flag_about=flag_about;
+        this.config=config;
         this.repositories=[];
         this.favouriteKeys=null;
         this.favouriteDao=new FavouriteDao(FLAG_STORAGE.flag_popular);
+        this.repositoryUtils=new RepositoryUtils(this)
     }
     //通知数据发生改变 items为改变之后的数据
     noNotifyDataChanged(items){
         this.updateFavourite(items)
+    }
+
+    componentDidMount(){
+        if(this.flag_about==FLAG_ABOUT.flag_about){
+            this.repositoryUtils.fetchRepository(this.config.info.currentRepoUrl);
+        }else{
+            var urls=[];
+            var items=this.config.items;
+            for(let i=0;i<items.length;i++){
+                urls.push(this.config.info.url+items[i]);
+            };
+            this.repositoryUtils.fetchRepositories(urls);
+
+        }
     }
 
     //更新项目的用户收藏状态
@@ -51,7 +67,7 @@ export default class AboutCommon{
         for(let i=0;i<items.length;i++){
             projectModel.push({
                 item:items[i].item?items[i].item:items[i],
-                isFavourite:Utils.checkFavourite(items[i],this.favouriteKeys?this.favouriteKeys:[])
+                isFavourite:Utils.checkFavourite(items[i].item?items[i].item:items[i],this.favouriteKeys?this.favouriteKeys:[])
             })
         };
         this.updateState({projectModel:projectModel})
@@ -59,12 +75,12 @@ export default class AboutCommon{
 
     onFavourite(item,isFavourite){
         if(isFavourite){
-            favouriteDao.saveFavouriteItem(item.id.toString(),JSON.stringify(item))
+            this.favouriteDao.saveFavouriteItem(item.id.toString(),JSON.stringify(item))
         }else{
-            favouriteDao.removeFavouriteItem(item.id.toString())
+            this.favouriteDao.removeFavouriteItem(item.id.toString())
         };
     }
-
+    //创建项目视图
     renderRepository(projectModel){
         if(!projectModel || projectModel.length==0){
             return null;
@@ -76,7 +92,7 @@ export default class AboutCommon{
                     projectModel={projectModel[i]}
                     key={projectModel[i].item.id}
                     onSelect={()=>{
-                        navigate('RepositoryDetail',{data:projectModel[i]})
+                        this.props.navigation.navigate('RepositoryDetail',{data:projectModel[i]})
                     }}
                     onFavourite={(item,isFavourite)=>{
                         this.onFavourite(item,isFavourite)
@@ -84,6 +100,7 @@ export default class AboutCommon{
                 />
             )
         };
+        return views;
     }
 
     getParallaxConfig=(params)=>{
@@ -91,23 +108,13 @@ export default class AboutCommon{
         let that=this;
         config.renderBackground=() => (
             <View key="background">
-                <Image source={{uri: params.backgroundImg,
-                                    width: window.width,
-                                    height: PARALLAX_HEADER_HEIGHT}}/>
-                 <View style={{position: 'absolute',
-                                  top: 0,
-                                  width: window.width,
-                                  backgroundColor: 'rgba(0,0,0,0.1)',
-                                  height: PARALLAX_HEADER_HEIGHT}}/>
+                <Image source={{uri: params.backgroundImg,width: window.width,height: PARALLAX_HEADER_HEIGHT}}/>
+                <View style={{position: 'absolute',top: 0,width: window.width, backgroundColor: 'rgba(0,0,0,0.1)',height: PARALLAX_HEADER_HEIGHT}}/>
             </View>
         );
         config.renderForeground=() => (
             <View key="parallax-header" style={ styles.parallaxHeader }>
-                <Image style={ styles.avatar } source={{
-                            uri: params.avatar,
-                            width: AVATAR_SIZE,
-                            height: AVATAR_SIZE
-                        }}/>
+                <Image style={ styles.avatar } source={{uri: params.avatar,width: AVATAR_SIZE,height: AVATAR_SIZE}}/>
                 <Text style={ styles.sectionSpeakerText }>
                     {params.name}
                 </Text>
@@ -141,7 +148,7 @@ export default class AboutCommon{
                 parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                 backgroundSpeed={10}
                 {...configParams}
-                >
+            >
                 {configView}
             </ParallaxScrollView>
         );

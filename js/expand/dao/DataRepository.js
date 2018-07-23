@@ -37,8 +37,8 @@ export default class DataRepository{
                             reject(new Error('数据为空'))
                             return
                         };
-                        resolve(result.items);
-                        this.saveRepository(url,result.items)
+                        this.saveRepository(url,result.items?result.items:result);
+                        resolve(result.items?result.items:result);
                     })
                     .done();
             }
@@ -49,7 +49,12 @@ export default class DataRepository{
         if(!url||!items){
             return
         };
-        let wrapData={items:items,update_data:new Date().getTime()};
+        let wrapData;
+        if(this.flag==FLAG_STORAGE.flag_my){
+            wrapData={item:items,update_data:new Date().getTime()};
+        }else{
+            wrapData={items:items,update_data:new Date().getTime()};
+        }
         AsyncStorage.setItem(url,JSON.stringify(wrapData),callBack);
     }
     /*
