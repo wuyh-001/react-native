@@ -166,7 +166,7 @@ export default class WelcomePage extends Component{
                 <NavigationBar
                     title={'welcome'}
                     statusBar={{
-                        backgroundColor:'#ee6363'
+                        backgroundColor:'#2196f3'
                     }}
                     leftButton={
                         <TouchableOpacity>

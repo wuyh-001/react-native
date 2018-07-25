@@ -103,7 +103,7 @@ export default class TrendingPage extends Component{
                 <NavigationBar
                     titleView={this.renderTitleView()}
                     statusBar={{
-                        backgroundColor:'#ee6363'
+                        backgroundColor:'#2196f3'
                     }}
                 />
                 {content}

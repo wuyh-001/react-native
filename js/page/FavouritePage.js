@@ -40,7 +40,7 @@ export default class FavouritePage extends Component{
                 <NavigationBar
                     title={'收藏'}
                     statusBar={{
-                        backgroundColor:'#ee6363'
+                        backgroundColor:'#2196f3'
                     }}
                     />
                 {content}

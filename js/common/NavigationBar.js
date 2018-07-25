@@ -6,7 +6,7 @@ import {StyleSheet,Text,View,Image,Platform,StatusBar} from 'react-native';
 import PropTypes from 'prop-types';
 
 const NAV_BAR_HEIGHT_ANDROID=50;
-const NAV_BAR_HEIGHT_IOS=55;
+const NAV_BAR_HEIGHT_IOS=40;
 const STATUS_BAR_HEIGHT=20; //状态栏的高度
 const StatusBarShape={
     backgroundColor:PropTypes.string,
@@ -35,6 +35,7 @@ export default class NavigationBar extends Component{
         )
         return (
             <View>
+                {status}
                 {content}
             </View>
         )
@@ -66,7 +67,7 @@ const styles=StyleSheet.create({
         backgroundColor:'#2196f3',
         flexDirection:'row',
         paddingLeft:10,
-        paddingRight:10
+        paddingRight:10,
     },
     titleView:{
         justifyContent:'center',

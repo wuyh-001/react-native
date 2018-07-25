@@ -76,7 +76,7 @@ export default class RepositoryDetail extends Component{
                 <NavigationBar
                     title={this.state.title}
                     statusBar={{
-                        backgroundColor:'#ee6363'
+                        backgroundColor:'#2196f3'
                     }}
                     leftButton={
                         ViewUtil.getLeftButton(()=>{this.onBack()})

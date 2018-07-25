@@ -11,5 +11,8 @@ export default {
     root_container:{
         flex:1,
         backgroundColor:'#f3f3f4'
-    }
+    },
+    backgroundColor:'#f3f3f4',
+    nav_bar_height_android:44,
+    nav_bar_height_ios:50
 }

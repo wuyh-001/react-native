@@ -12,6 +12,7 @@ import LanguangeDao,{FLAG_LANGUAGE} from '../expand/dao/LanguangeDao.js';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import PopularTab from './PopularTab.js';
 
+
 export default class PopularPage extends Component{
     constructor(props){
         super(props)
@@ -28,6 +29,17 @@ export default class PopularPage extends Component{
         this.languageDao.fetch().then(result=>{
             this.setState({language:result})
         }).catch(e=>console.log(e))
+    }
+    renderRightButton=()=>{
+        return (<View>
+                    <TouchableOpacity onPress={()=>{this.props.navigate('SearchPage')}}>
+                        <Image source={require('../../res/images/ic_search_white_48pt.png')} style={{width:24,height:20}}/>
+                    </TouchableOpacity>
+                </View>)
+    }
+
+    renderLeftButton=()=>{
+        return <View></View>
     }
 
     render(){
@@ -47,8 +59,10 @@ export default class PopularPage extends Component{
                 <NavigationBar
                     title={'最热'}
                     statusBar={{
-                        backgroundColor:'#ee6363'
+                        backgroundColor:'#2196f3'
                     }}
+                    leftButton={this.renderLeftButton()}
+                    rightButton={this.renderRightButton()}
                 />
                 {content}
             </View>
