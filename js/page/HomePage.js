@@ -12,23 +12,56 @@ import FavouritePage from './FavouritePage.js';
 import MyPage from './my/MyPage.js';
 import TrendingPage from './TrendingPage.js';
 
+import { StackActions, NavigationActions } from 'react-navigation';
+
+export const ACTION_HOME={
+    A_SHOW_TOAST:"showToast",
+    A_RESTART:'restart'
+}
+
+export const FLAG_TAB={
+    flag_popularTab:'tb_popular',
+    flag_trending:'tb_trending',
+    flag_favorite:'tb_favorite',
+    flag_my:'tb_my'
+}
+
 export default class HomePage extends Component{
     constructor(props){
         super(props)
+        let selectedTab=this.props.selectedTab?this.props.selectedTab:'tb_popular'
         this.state={
-            selectedTab:'tb_popular'
+            selectedTab:selectedTab
         }
     }
     static navigationOptions={
         header:null
     }
     componentDidMount(){
-        this.listener=DeviceEventEmitter.addListener('showToast',(text)=>{
-            this.toast.show(text,DURATION.LENGTH_LONG)
-        })
+        let that=this;
+        this.listener=DeviceEventEmitter.addListener('ACTION_HOME',(action,params)=>that.onAction(action,params))
     }
     componentWillUnmount(){
         this.listener&&this.listener.remove();
+    }
+    //通知回调事件处理
+    onAction(action,params){
+        if(action==ACTION_HOME.A_RESTART){
+            this.onRestart();
+        }else if(action==ACTION_HOME.A_SHOW_TOAST){
+            this.refs.toast.show(params.text)
+        }
+    }
+    //重启首页，默认显示的页面
+    onRestart(jumpToTab){
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({routeName: 'homePage'})
+            ]
+        })
+
+        this.props.navigation.dispatch(resetAction);
     }
     _rendTab(Component,selectTab,title,renderIcon,navigate){
         return(
