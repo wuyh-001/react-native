@@ -47,7 +47,7 @@ export default class HomePage extends Component{
     //通知回调事件处理
     onAction(action,params){
         if(action==ACTION_HOME.A_RESTART){
-            this.onRestart();
+            this.onRestart(params.jumpToTab);
         }else if(action==ACTION_HOME.A_SHOW_TOAST){
             this.refs.toast.show(params.text)
         }
@@ -57,7 +57,7 @@ export default class HomePage extends Component{
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({routeName: 'homePage'})
+                NavigationActions.navigate({routeName: jumpToTab})
             ]
         })
 

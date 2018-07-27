@@ -14,6 +14,8 @@ import ProjectModel from '../modal/ProjectModel.js';
 import RespositoryCell from './../common/RespositoryCell.js';
 import Utils from '../util/Utils.js';
 
+import makeCancelable from './../util/Cancelable.js';
+
 import {ACTION_HOME} from './HomePage.js'
 
 var {height, width} = Dimensions.get('window');
@@ -90,29 +92,30 @@ export default class SearchPage extends Component{
     loadData=()=>{
         let url=this.genUrl(this.state.val);
         this.updateState({isLoading:true});
-        fetch(url).then(responseData=>responseData.json())
-        .then(result=>{
-            if(!this || !result || !result.items || result.items.length==0){
-                this.toast.show("没有数据",DURATION.LENGTH_SHORT);
-                this.updateState({isLoading:false,rightButtonText:'搜索'})
-                return
-            };
-            this.items=result.items;
-            this.getFavouriteKeys();
+        this.cancelable=makeCancelable(fetch(url))
+        this.cancelable.promise.then(responseData=>responseData.json())
+            .then(result=>{
+                if(!this || !result || !result.items || result.items.length==0){
+                    this.toast.show("没有数据",DURATION.LENGTH_SHORT);
+                    this.updateState({isLoading:false,rightButtonText:'搜索'})
+                    return
+                };
+                this.items=result.items;
+                this.getFavouriteKeys();
                 if(!this.checkKeyIsExist(this.keys,this.state.val)){
                     this.updateState({bottomButton:true})
                 };
-        }).catch(error=>{
-            this.setState({
-                isLoading:false,
-                rightButtonText:'搜索'
+            }).catch(error=>{
+                this.setState({
+                    isLoading:false,
+                    rightButtonText:'搜索'
+                })
             })
-        })
 
     }
     componentWillUnmount(){
         if(this.isKeyChanged){
-            DeviceEventEmitter.emit('ACTION_HOME',ACTION_HOME.A_RESTART)
+            DeviceEventEmitter.emit('ACTION_HOME',ACTION_HOME.A_RESTART,{jumpToTab:'homePage'})
         }
 
     }
@@ -165,7 +168,8 @@ export default class SearchPage extends Component{
             this.updateState({rightButtonText:'取消'})
             this.loadData()
         }else{
-            this.updateState({rightButtonText:'搜索',isLoading:false})
+            this.updateState({rightButtonText:'搜索',isLoading:false});
+            this.cancelable&&this.cancelable.cancel();
         };
         this.refs.textInput.blur();
     }

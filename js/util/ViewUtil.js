@@ -23,6 +23,13 @@ export default class ViewUtil {
             </TouchableOpacity>
         )
     }
+    static getMoreButton(callBack){
+        return (
+            <TouchableOpacity ref="moreMenuButton" style={{padding:5}} onPress={callBack}>
+                <Image source={require('../../res/images/ic_more_vert_white_48pt.png')} style={{width:24,height:24}}/>
+            </TouchableOpacity>
+        )
+    }
     /*
     获取设置页面的item
     callback             单击item的回调函数

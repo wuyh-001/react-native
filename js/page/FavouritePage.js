@@ -10,6 +10,7 @@ import NavigationBar from '../common/NavigationBar.js';
 
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import FavouriteTab from './FavouriteTab.js';
+import MoreMenu from './../common/MoreMenu.js';
 
 export default class FavouritePage extends Component{
     constructor(props){

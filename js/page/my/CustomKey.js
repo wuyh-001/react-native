@@ -2,13 +2,15 @@
  * Created by xiaowuzai on 2018/3/2.
  */
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,Image,TouchableOpacity,ScrollView,Alert} from 'react-native';
+import {StyleSheet,Text,View,Image,TouchableOpacity,ScrollView,Alert,DeviceEventEmitter} from 'react-native';
 import CheckBox from 'react-native-check-box';
 
 import NavigationBar from './../../common/NavigationBar.js';
 import ViewUtil from './../../util/ViewUtil.js';
 import LanguangeDao,{FLAG_LANGUAGE} from './../../expand/dao/LanguangeDao.js';
 import ArrayUtil from '../../util/ArrayUtil.js';
+
+import {ACTION_HOME,FLAG_TAB} from './../HomePage.js'
 
 export default class CustomKey extends Component{
     constructor(props){
@@ -45,8 +47,9 @@ export default class CustomKey extends Component{
             };
         };
         this.languageDao.save(this.state.data)
-        goBack();
-
+        //goBack();
+        let jumpToTab=this.props.navigation.state.params.flag==FLAG_LANGUAGE.flag_key?FLAG_TAB.flag_popularTab:FLAG_TAB.flag_trending
+        DeviceEventEmitter.emit('ACTION_HOME',ACTION_HOME.A_RESTART,{jumpToTab:'homePage'})
     }
     onBack(){
         let {navigate,goBack}=this.props.navigation;

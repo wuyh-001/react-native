@@ -11,7 +11,9 @@ import LanguangeDao,{FLAG_LANGUAGE} from '../expand/dao/LanguangeDao.js';
 
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import PopularTab from './PopularTab.js';
-
+import MoreMenu,{MORE_MENU} from './../common/MoreMenu.js';
+import ViewUtil from './../util/ViewUtil.js';
+import {FLAG_TAB} from './HomePage.js';
 
 export default class PopularPage extends Component{
     constructor(props){
@@ -31,15 +33,26 @@ export default class PopularPage extends Component{
         }).catch(e=>console.log(e))
     }
     renderRightButton=()=>{
-        return (<View>
-                    <TouchableOpacity onPress={()=>{this.props.navigate('SearchPage')}}>
-                        <Image source={require('../../res/images/ic_search_white_48pt.png')} style={{width:24,height:20}}/>
+        let that=this;
+        return (<View style={{flexDirection:'row'}}>
+                    <TouchableOpacity style={{padding:5}} onPress={()=>{this.props.navigate('SearchPage')}}>
+                        <Image source={require('../../res/images/ic_search_white_48pt.png')} style={{width:24,height:24}}/>
                     </TouchableOpacity>
+                    {ViewUtil.getMoreButton(()=>that.refs.moreMenu.open())}
                 </View>)
     }
 
     renderLeftButton=()=>{
         return <View></View>
+    }
+    renderMoreView=()=>{
+        return <MoreMenu
+                    menus={[MORE_MENU.Custom_Key,MORE_MENU.Sort_Key,MORE_MENU.Remove_Key,MORE_MENU.Custom_Theme]}
+                    anchorView={()=>this.refs.moreMenuButton}
+                    fromPage={FLAG_TAB.flag_popularTab}
+                    ref="moreMenu"
+                    jumpToPage={this.props.navigate}
+                />
     }
 
     render(){
@@ -65,6 +78,7 @@ export default class PopularPage extends Component{
                     rightButton={this.renderRightButton()}
                 />
                 {content}
+                {this.renderMoreView()}
             </View>
         )
     }

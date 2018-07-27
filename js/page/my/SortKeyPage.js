@@ -2,7 +2,7 @@
  * Created by xiaowuzai on 2018/2/1.
  */
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,Image,TouchableHighlight,TextInput,Alert} from 'react-native';
+import {StyleSheet,Text,View,Image,DeviceEventEmitter,TouchableHighlight,TextInput,Alert} from 'react-native';
 
 import SortableListView from 'react-native-sortable-listview';
 
@@ -11,6 +11,7 @@ import NavigationBar from './../../common/NavigationBar.js';
 import LanguangeDao,{FLAG_LANGUAGE} from './../../expand/dao/LanguangeDao.js';
 import ArrayUtil from '../../util/ArrayUtil.js';
 import ViewUtil from './../../util/ViewUtil.js';
+import {ACTION_HOME,FLAG_TAB} from './../HomePage.js'
 
 
 export default class SortKeyPage extends Component{
@@ -77,7 +78,9 @@ export default class SortKeyPage extends Component{
         };
         this.sortResult();
         this.LanguangeDao.save(this.sortReaultArray);
-        goBack();
+        //goBack();
+        DeviceEventEmitter.emit('ACTION_HOME',ACTION_HOME.A_RESTART,{jumpToTab:'homePage'})
+
     }
     sortResult(){
         this.sortReaultArray=ArrayUtil.clone(this.dataArray)

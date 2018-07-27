@@ -2,6 +2,7 @@
  * Created by xiaowuzai on 2018/2/1.
  */
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import {StyleSheet,Text,View,Image,TouchableOpacity,TextInput} from 'react-native';
 
 import DataRepository,{FLAG_STORAGE} from '../expand/dao/DataRepository.js';
@@ -13,6 +14,7 @@ import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-vi
 import TrendingTab from './TrendingTab.js';
 import TimeSpan from '../modal/TimeSpan.js';
 import Popover from '../common/Popover.js';
+import MoreMenu from './../common/MoreMenu.js';
 
 var timeSpanTextArray=[new TimeSpan('今 天','?since=daily'),new TimeSpan('本 周','?since=weekly'),new TimeSpan('本 月','?since=monthly')];
 
