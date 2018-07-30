@@ -7,6 +7,7 @@ import {StyleSheet,Text,View,Image,TouchableHighlight,TouchableOpacity,AsyncStor
 import Toast,{DURATION} from 'react-native-easy-toast';
 
 import NavigationBar from './../common/NavigationBar.js';
+import ThemeDao from './../expand/dao/ThemeDao.js';
 
 const KEY='text';
 
@@ -31,14 +32,17 @@ export default class WelcomePage extends Component{
             stepVal:3,
             time:200
         }
+
+        this.themeDao=new ThemeDao()
     }
     componentDidMount(){
+        this.themeDao.getTheme().then((data)=>{
+            this.theme=data
+        })
         this.timer=setTimeout(()=>{
-            this.props.navigation.navigate('homePage')
+            this.props.navigation.navigate('homePage',{theme:this.theme})
         },500)
         this._updatePosition();
-
-
     }
     componentWillUnmount(){
         this.timer&&clearTimeout(this.timer)

@@ -11,11 +11,25 @@ import {MORE_MENU} from './../../common/MoreMenu.js';
 import GlobalStyles from './../../../res/styles/GlobalStyles.js';
 import ViewUtil from './../../util/ViewUtil.js';
 
+import CustomTheme from './CustomTheme.js'
+
 export default class MyPage extends Component{
     constructor(props){
         super(props)
-
+        this.state={
+            customThemeViewVisible:false
+        }
     };
+    renderCustomTheme=()=>{
+        return (
+            <CustomTheme
+                visible={this.state.customThemeViewVisible}
+                {...this.props}
+                onClose={()=>this.setState({customThemeViewVisible:false})}
+            />
+        )
+    }
+
     clickEvent=(tab)=>{
         let TargetComponent,params={};
 
@@ -42,6 +56,7 @@ export default class MyPage extends Component{
                 params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
                 break;
             case MORE_MENU.Custom_Theme:
+                this.setState({customThemeViewVisible:true})
                 break;
             case MORE_MENU.About_Author:
                 TargetComponent='AboutAuthorPage';
@@ -145,6 +160,7 @@ export default class MyPage extends Component{
                     }
                     <View style={GlobalStyles.line} />
                 </ScrollView>
+                {this.renderCustomTheme()}
             </View>
         )
     }

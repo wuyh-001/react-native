@@ -31,7 +31,8 @@ export default class HomePage extends Component{
         super(props)
         let selectedTab=this.props.selectedTab?this.props.selectedTab:'tb_popular'
         this.state={
-            selectedTab:selectedTab
+            selectedTab:selectedTab,
+            theme:this.props.navigation.state.params.theme
         }
     }
     static navigationOptions={
@@ -63,31 +64,31 @@ export default class HomePage extends Component{
 
         this.props.navigation.dispatch(resetAction);
     }
-    _rendTab(Component,selectTab,title,renderIcon,navigate){
+    _rendTab(Component,selectTab,title,renderIcon,navigate,theme){
         return(
             <TabNavigator.Item
                 selected={this.state.selectedTab === selectTab}
                 title={title}
-                selectedTitleStyle={{color:'#2196f3'}}
+                selectedTitleStyle={this.state.theme.styles.selectedTitleStyle}
                 renderIcon={() => <Image source={renderIcon} style={styles.image}/>}
-                renderSelectedIcon={() => <Image source={renderIcon} style={[styles.image,{tintColor:'#2196f3'}]}/>}
+                renderSelectedIcon={() => <Image source={renderIcon} style={[styles.image,this.state.theme.styles.tabBarSelectedIcon]}/>}
                 onPress={() => this.setState({selectedTab: selectTab})}>
                 <View style={{flex:1}}>
-                    <Component navigate={navigate}/>
+                    <Component navigate={navigate} theme={theme}/>
                 </View>
             </TabNavigator.Item>
         )
     }
     render() {
-        let {selectedTab}=this.state;
+        let {selectedTab,theme}=this.state;
         let {navigate}=this.props.navigation;
         return (
             <View style={{flex:1}}>
                 <TabNavigator>
-                    {this._rendTab(PopularPage,'tb_popular','最热',require('./../../res/images/ic_polular.png'),navigate)}
-                    {this._rendTab(TrendingPage,'tb_trending','趋势',require('./../../res/images/ic_trending.png'),navigate)}
-                    {this._rendTab(FavouritePage,'tb_favorite','收藏',require('./../../res/images/ic_favorite.png'),navigate)}
-                    {this._rendTab(MyPage,'tb_my','我的',require('./../../res/images/ic_my.png'),navigate)}
+                    {this._rendTab(PopularPage,'tb_popular','最热',require('./../../res/images/ic_polular.png'),navigate,theme)}
+                    {this._rendTab(TrendingPage,'tb_trending','趋势',require('./../../res/images/ic_trending.png'),navigate,theme)}
+                    {this._rendTab(FavouritePage,'tb_favorite','收藏',require('./../../res/images/ic_favorite.png'),navigate,theme)}
+                    {this._rendTab(MyPage,'tb_my','我的',require('./../../res/images/ic_my.png'),navigate,theme)}
                 </TabNavigator>
                 <Toast ref={toast=>this.toast=toast}/>
             </View>

@@ -19,7 +19,8 @@ export default class PopularPage extends Component{
     constructor(props){
         super(props)
         this.state={
-            language:[]
+            language:[],
+            theme:this.props.theme
         }
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
@@ -66,14 +67,13 @@ export default class PopularPage extends Component{
                 return lan.checked?<PopularTab tabLabel={lan.name} key={i} navigate={navigate}/>:null
             })}
         </ScrollableTabView>:null
-
+        let statusBar=this.state.theme.styles.navBar
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={'最热'}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.state.theme.themeColor}}
+                    style={this.state.theme.styles.navBar}
                     leftButton={this.renderLeftButton()}
                     rightButton={this.renderRightButton()}
                 />
