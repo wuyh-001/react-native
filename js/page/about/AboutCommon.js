@@ -94,7 +94,7 @@ export default class AboutCommon{
                     key={projectModel[i].item.id}
                     theme={this.theme}
                     onSelect={()=>{
-                        this.props.navigation.navigate('RepositoryDetail',{data:projectModel[i]})
+                        this.props.navigation.navigate('RepositoryDetail',{data:projectModel[i],theme:this.theme})
                     }}
                     onFavourite={(item,isFavourite)=>{
                         this.onFavourite(item,isFavourite)

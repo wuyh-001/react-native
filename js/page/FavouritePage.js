@@ -11,8 +11,9 @@ import NavigationBar from '../common/NavigationBar.js';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import FavouriteTab from './FavouriteTab.js';
 import MoreMenu from './../common/MoreMenu.js';
+import BaseComponent from './BaseComponent.js';
 
-export default class FavouritePage extends Component{
+export default class FavouritePage extends BaseComponent{
     constructor(props){
         super(props)
         this.state={
@@ -21,9 +22,6 @@ export default class FavouritePage extends Component{
         }
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
     };
-    componentDidMount(){
-
-    }
 
 
     render(){

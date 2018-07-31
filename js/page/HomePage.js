@@ -11,12 +11,14 @@ import PopularPage from './PopularPage.js';
 import FavouritePage from './FavouritePage.js';
 import MyPage from './my/MyPage.js';
 import TrendingPage from './TrendingPage.js';
+import BaseComponent from './BaseComponent.js';
 
 import { StackActions, NavigationActions } from 'react-navigation';
 
 export const ACTION_HOME={
     A_SHOW_TOAST:"showToast",
-    A_RESTART:'restart'
+    A_RESTART:'restart',
+    A_THEME:'theme'
 }
 
 export const FLAG_TAB={
@@ -26,7 +28,7 @@ export const FLAG_TAB={
     flag_my:'tb_my'
 }
 
-export default class HomePage extends Component{
+export default class HomePage extends BaseComponent{
     constructor(props){
         super(props)
         let selectedTab=this.props.selectedTab?this.props.selectedTab:'tb_popular'
@@ -39,10 +41,12 @@ export default class HomePage extends Component{
         header:null
     }
     componentDidMount(){
+        super.componentDidMount();
         let that=this;
         this.listener=DeviceEventEmitter.addListener('ACTION_HOME',(action,params)=>that.onAction(action,params))
     }
     componentWillUnmount(){
+        super.componentWillUnmount()
         this.listener&&this.listener.remove();
     }
     //通知回调事件处理

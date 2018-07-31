@@ -15,10 +15,11 @@ import TrendingTab from './TrendingTab.js';
 import TimeSpan from '../modal/TimeSpan.js';
 import Popover from '../common/Popover.js';
 import MoreMenu from './../common/MoreMenu.js';
+import BaseComponent from './BaseComponent.js';
 
 var timeSpanTextArray=[new TimeSpan('今 天','?since=daily'),new TimeSpan('本 周','?since=weekly'),new TimeSpan('本 月','?since=monthly')];
 
-export default class TrendingPage extends Component{
+export default class TrendingPage extends BaseComponent{
     constructor(props){
         super(props)
         this.state={
@@ -32,6 +33,7 @@ export default class TrendingPage extends Component{
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_language);
     };
     componentDidMount(){
+        super.componentDidMount();
         this.loadData()
     }
     loadData(){

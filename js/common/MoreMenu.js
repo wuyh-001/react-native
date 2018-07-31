@@ -28,7 +28,8 @@ export default class MoreMenu extends Component{
         super(props)
         this.state={
             isVisible:false,
-            buttonRect:{}
+            buttonRect:{},
+            theme:this.props.theme
         }
     }
 
@@ -51,36 +52,43 @@ export default class MoreMenu extends Component{
     }
 
     moreMenuSelected=(tab)=>{
+        console.log('moreMenu:'+this.state.theme.themeColor)
         this.closePopover();
+        if(typeof this.props.onMoreSelect=="function"){
+            this.props.onMoreSelect(tab)
+        };
         let TargetComponent,params={};
         switch(tab){
             case MORE_MENU.Custom_Language:
                 TargetComponent='CustomKey';
-                params={isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                params={isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language,theme:this.state.theme}
                 break;
             case MORE_MENU.Custom_Key:
                 TargetComponent='CustomKey';
-                params={isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                params={isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Remove_Key:
                 TargetComponent='CustomKey';
 
-                params={isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key}
+                params={isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Sort_Key:
                 TargetComponent='SortKeyPage';
-                params={title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                params={title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Sort_Language:
                 TargetComponent='SortKeyPage';
-                params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language,theme:this.state.theme}
                 break;
             case MORE_MENU.Custom_Theme:
+
                 break;
             case MORE_MENU.About_Author:
+                params={theme:this.state.theme}
                 TargetComponent='AboutAuthorPage';
                 break;
             case MORE_MENU.About:
+                params={theme:this.state.theme}
                 TargetComponent='AboutPage';
                 break;
             case MORE_MENU.Feedback:

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Modal,ScrollView,Platform} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Modal,ScrollView,Platform,DeviceEventEmitter} from 'react-native';
 
 
 import ThemeFactory,{ThemeFlags} from '../../../res/styles/ThemeFactory'
 import ThemeDao from './../../expand/dao/ThemeDao.js';
-
+import {ACTION_HOME} from './../../page/HomePage.js';
 
 export default class CustomTheme extends Component{
     constructor(props){
@@ -13,7 +13,8 @@ export default class CustomTheme extends Component{
     };
     selectTheme(selectTheme){
         this.props.onClose();
-        this.themeDao.save(ThemeFlags[selectTheme])
+        this.themeDao.save(ThemeFlags[selectTheme]);
+        DeviceEventEmitter.emit('ACTION_BASE',ACTION_HOME.A_THEME,ThemeFactory.createTheme(ThemeFlags[selectTheme]));
     }
     getThemeItem(themeKey){
         return (

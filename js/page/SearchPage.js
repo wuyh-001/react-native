@@ -38,7 +38,9 @@ export default class SearchPage extends Component{
             bottomButton:false,
             dataSource:new ListView.DataSource({
                 rowHasChanged:((r1,r2)=>{r1!=r2})
-            })
+            }),
+            theme:this.props.navigation.state.params.theme
+
         }
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_key);
         this.keys=[];
@@ -175,13 +177,14 @@ export default class SearchPage extends Component{
     }
 
     rendNavBar=()=>{
+        console.log(this.state.theme)
         let backButton=ViewUtil.getLeftButton(()=>{this.onBackPress()});
         let inputView=<TextInput ref="textInput" onChangeText={(val)=>{this.updateState({val:val})}} style={styles.textInput}/>
         let rightButton=<TouchableOpacity onPress={this.onRightClickEvent} style={styles.rightButtonStyle}>
                             <Text style={styles.rightButtonText}>{this.state.rightButtonText}</Text>
                         </TouchableOpacity>
         return (
-            <View style={styles.nav}>
+            <View style={[styles.nav,{backgroundColor:this.state.theme.themeColor}]}>
                 {backButton}
                 {inputView}
                 {rightButton}
@@ -207,8 +210,9 @@ export default class SearchPage extends Component{
 
     render(){
         let statusBar=null;
+        let theme=this.state.theme
         if(Platform.OS==="ios"){
-            statusBar=<View style={[styles.statusBar,{backgroundColor:'#2196f3'}]}></View>
+            statusBar=<View style={[styles.statusBar,{backgroundColor:theme.themeColor}]}></View>
         };
         let that=this;
         let listView=!that.state.isLoading?<ListView
@@ -219,7 +223,7 @@ export default class SearchPage extends Component{
                      />:null;
         let indicator=that.state.isLoading?<ActivityIndicator
                             style={styles.indicator}
-                            color={'#2196f3'}
+                            color={theme.themeColor}
                             size="large"
                             animating={that.state.isLoading}
                         />:null;
@@ -250,7 +254,7 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         paddingTop:15,
         paddingBottom:15,
-        backgroundColor:'#2196f3',
+
         alignItems:'center',
         height:(Platform.OS=='ios')?GlobalStyles.nav_bar_height_ios:GlobalStyles.nav_bar_height_android,
     },

@@ -106,6 +106,7 @@ export default class CustomKey extends Component{
     renderCheckBox(data){
         let leftText=data.name;
         let checked=this.isRemove?false:data.checked;
+        console.log('params:'+this.props.navigation.state.params.theme.themeColor)
         return(
             <CheckBox
                 style={{flex:1,padding:10}}

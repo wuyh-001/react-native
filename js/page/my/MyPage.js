@@ -12,8 +12,9 @@ import GlobalStyles from './../../../res/styles/GlobalStyles.js';
 import ViewUtil from './../../util/ViewUtil.js';
 
 import CustomTheme from './CustomTheme.js'
+import BaseComponent from './../BaseComponent.js';
 
-export default class MyPage extends Component{
+export default class MyPage extends BaseComponent{
     constructor(props){
         super(props)
         this.state={
