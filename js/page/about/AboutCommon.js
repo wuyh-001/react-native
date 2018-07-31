@@ -22,7 +22,7 @@ import RepositoryUtils from './../../expand/dao/RepositoryUtils.js';
 export var FLAG_ABOUT={flag_about:'about',flag_about_me:'about_me'};
 
 export default class AboutCommon{
-    constructor(props,updateState,flag_about,config) {
+    constructor(props,updateState,flag_about,config,theme) {
         this.props=props;
         this.updateState=updateState;
         this.flag_about=flag_about;
@@ -30,7 +30,8 @@ export default class AboutCommon{
         this.repositories=[];
         this.favouriteKeys=null;
         this.favouriteDao=new FavouriteDao(FLAG_STORAGE.flag_popular);
-        this.repositoryUtils=new RepositoryUtils(this)
+        this.repositoryUtils=new RepositoryUtils(this);
+        this.theme=theme;
     }
     //通知数据发生改变 items为改变之后的数据
     noNotifyDataChanged(items){
@@ -91,6 +92,7 @@ export default class AboutCommon{
                 <RespositoryCell
                     projectModel={projectModel[i]}
                     key={projectModel[i].item.id}
+                    theme={this.theme}
                     onSelect={()=>{
                         this.props.navigation.navigate('RepositoryDetail',{data:projectModel[i]})
                     }}
@@ -139,11 +141,12 @@ export default class AboutCommon{
     }
 
     render=(params,configView)=>{
-        let configParams=this.getParallaxConfig(params)
+        let configParams=this.getParallaxConfig(params);
+        let color=this.theme.themeColor;
         return (
             <ParallaxScrollView
                 headerBackgroundColor="#333"
-                backgroundColor="#2196f3"
+                backgroundColor={color}
                 stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
                 parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
                 backgroundSpeed={10}

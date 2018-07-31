@@ -27,9 +27,9 @@ export default  class RespositoryCell extends Component{
     }
     render(){
         let projectModel=this.props.projectModel.item?this.props.projectModel.item:this.props.projectModel;
-
+        let theme=this.props.theme;
         let favouriteButton=<TouchableOpacity onPress={()=>{this.onPressFavourite()}}>
-                                <Image source={this.state.favouriteIcon} style={{width:18,height:18,tintColor:'#2196f3'}}/>
+                                <Image source={this.state.favouriteIcon} style={[{width:18,height:18},theme.styles.tabBarSelectedIcon]}/>
                             </TouchableOpacity>
         return (
             <TouchableOpacity style={styles.container} onPress={()=>{this.props.onSelect()}}>

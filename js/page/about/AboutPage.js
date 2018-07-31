@@ -17,7 +17,7 @@ import AboutAuthorPage from './AboutAuthorPage.js';
 export default class AboutPage extends Component {
     constructor(props) {
         super(props);
-        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about,config)
+        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about,config,this.props.navigation.state.params.theme)
         this.state={
             projectModal:[]
         }
@@ -64,13 +64,14 @@ export default class AboutPage extends Component {
 
     render() {
         let that=this;
+        let theme=that.props.navigation.state.params.theme
         let configView=<View>
                             {that.aboutCommon.renderRepository(that.state.projectModel)}
-                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.WebSite)},require('./../../../res/images/ic_computer.png'),MORE_MENU.WebSite,{tintColor:'#2196f3'})}
+                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.WebSite)},require('./../../../res/images/ic_computer.png'),MORE_MENU.WebSite,{tintColor:theme.themeColor})}
                             <View style={GlobalStyles.line} />
-                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.About_Author)},require('./../my/img/ic_insert_emoticon.png'),MORE_MENU.About_Author,{tintColor:'#2196f3'})}
+                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.About_Author)},require('./../my/img/ic_insert_emoticon.png'),MORE_MENU.About_Author,{tintColor:theme.themeColor})}
                             <View style={GlobalStyles.line} />
-                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.Feedback)},require('./../../../res/images/ic_feedback.png'),MORE_MENU.Feedback,{tintColor:'#2196f3'})}
+                            {ViewUtil.getSettingItem(()=>{this.clickEvent(MORE_MENU.Feedback)},require('./../../../res/images/ic_feedback.png'),MORE_MENU.Feedback,{tintColor:theme.themeColor})}
                             <View style={GlobalStyles.line} />
                         </View>
         return (

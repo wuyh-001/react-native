@@ -64,7 +64,7 @@ export default class PopularPage extends Component{
             >
             {this.state.language.map((result,i,arr)=>{
                 let lan=arr[i];
-                return lan.checked?<PopularTab tabLabel={lan.name} key={i} navigate={navigate}/>:null
+                return lan.checked?<PopularTab tabLabel={lan.name} key={i} navigate={navigate} theme={this.state.theme}/>:null
             })}
         </ScrollableTabView>:null
         let statusBar=this.state.theme.styles.navBar
@@ -73,7 +73,7 @@ export default class PopularPage extends Component{
                 <NavigationBar
                     title={'最热'}
                     statusBar={{backgroundColor:this.state.theme.themeColor}}
-                    style={this.state.theme.styles.navBar}
+                    style={statusBar}
                     leftButton={this.renderLeftButton()}
                     rightButton={this.renderRightButton()}
                 />

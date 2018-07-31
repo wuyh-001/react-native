@@ -134,13 +134,15 @@ export default class PopularTab extends Component{
     }
 
     _renderItem(projectModel){
-        let navigate=this.props.navigate
+        let navigate=this.props.navigate;
+        let theme=this.props.theme;
         return (
             <RespositoryCell
                 projectModel={projectModel}
                 key={projectModel.item.id}
+                theme={this.props.theme}
                 onSelect={()=>{
-                    navigate('RepositoryDetail',{data:projectModel})
+                    navigate('RepositoryDetail',{data:projectModel,theme:theme})
                 }}
                 onFavourite={(item,isFavourite)=>{
                     this.onFavourite(item,isFavourite)
@@ -150,6 +152,7 @@ export default class PopularTab extends Component{
     }
 
     render(){
+        let theme=this.props.theme;
         return (
             <View style={styles.container}>
                 <ListView
@@ -160,8 +163,8 @@ export default class PopularTab extends Component{
                         <RefreshControl
                             refreshing={this.state.isLoading}
                             onRefresh={()=>this.onLoad()}
-                            colors={['#2196f3']}
-                            tintColor={'#2196f3'}
+                            colors={[theme.themeColor]}
+                            tintColor={theme.themeColor}
                             title={'Loading'}
                         />
                     }

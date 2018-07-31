@@ -22,6 +22,7 @@ export default class SortKeyPage extends Component{
         this.originalCheckedArray=[];//初始化时被选中的标签的顺序
         this.state={
             checkedArray:[],
+            theme:this.props.navigation.state.params.theme
         }
     };
     static navigationOptions={
@@ -93,13 +94,13 @@ export default class SortKeyPage extends Component{
     render(){
         let title=this.props.navigation.state.params.title;
         let btnTxt=this.props.navigation.state.params.btnTxt;
+        let statusBar=this.state.theme.styles.navBar
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={title}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.state.theme.themeColor}}
+                    style={statusBar}
                     leftButton={
                         ViewUtil.getLeftButton(()=>{this.onBack()})
                     }
@@ -117,7 +118,7 @@ export default class SortKeyPage extends Component{
                         this.state.checkedArray.splice(e.to, 0, this.state.checkedArray.splice(e.from, 1)[0])
                         this.forceUpdate()
                     }}
-                    renderRow={row => <SortCell data={row}/>}
+                    renderRow={row => <SortCell data={row} theme={this.state.theme}/>}
                     />
             </View>
         )
@@ -133,7 +134,7 @@ class SortCell extends Component{
                 {...this.props.sortHandlers}
             >
                 <View style={styles.row}>
-                    <Image style={styles.image} source={require('./img/ic_sort.png')}/>
+                    <Image style={[styles.image,{tintColor:this.props.theme.themeColor}]} source={require('./img/ic_sort.png')}/>
                     <Text>{this.props.data.name}</Text>
                 </View>
             </TouchableHighlight>
@@ -157,7 +158,6 @@ const styles=StyleSheet.create({
     image:{
         width:16,
         height:16,
-        tintColor:'#2196f3',
         marginRight:10
     },
     title:{

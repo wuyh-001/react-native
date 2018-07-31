@@ -25,7 +25,8 @@ export default class TrendingPage extends Component{
             language:[],
             isVisible:false,
             buttonRect:{},
-            timeSpanView:timeSpanTextArray[0]
+            timeSpanView:timeSpanTextArray[0],
+            theme:this.props.theme
         }
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
         this.languageDao=new LanguangeDao(FLAG_LANGUAGE.flag_language);
@@ -78,7 +79,7 @@ export default class TrendingPage extends Component{
             >
             {this.state.language.map((result,i,arr)=>{
                 let lan=arr[i];
-                return lan.checked?<TrendingTab tabLabel={lan.name} timeSpan={this.state.timeSpanView} key={i} navigate={navigate}/>:null
+                return lan.checked?<TrendingTab tabLabel={lan.name} timeSpan={this.state.timeSpanView} key={i} navigate={navigate} theme={this.state.theme}/>:null
             })}
         </ScrollableTabView>:null
         let that=this;
@@ -100,13 +101,13 @@ export default class TrendingPage extends Component{
                                 })
                             }
                         </Popover>
+        let statusBar=this.state.theme.styles.navBar
         return (
             <View style={styles.container}>
                 <NavigationBar
                     titleView={this.renderTitleView()}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.state.theme.themeColor}}
+                    style={statusBar}
                 />
                 {content}
                 {timeSpanView}

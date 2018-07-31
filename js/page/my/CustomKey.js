@@ -19,7 +19,8 @@ export default class CustomKey extends Component{
         this.changedValues=[];
         this.isRemove=this.props.navigation.state.params.isRemove
         this.state={
-            data:[]
+            data:[],
+            theme:this.props.navigation.state.params.theme
         }
     };
     static navigationOptions={
@@ -111,8 +112,8 @@ export default class CustomKey extends Component{
                 onClick={()=>this.onClick(data)}
                 leftText={leftText}
                 isChecked={checked}
-                checkedImage={<Image source={require('./img/ic_check_box.png')} style={{tintColor:'#6495ed'}}/>}
-                unCheckedImage={<Image source={require('./img/ic_check_box_outline_blank.png')} style={{tintColor:'#6495ed'}}/>}
+                checkedImage={<Image source={require('./img/ic_check_box.png')} style={{tintColor:this.state.theme.themeColor}}/>}
+                unCheckedImage={<Image source={require('./img/ic_check_box_outline_blank.png')} style={{tintColor:this.state.theme.themeColor}}/>}
             />
         )
     }
@@ -120,13 +121,13 @@ export default class CustomKey extends Component{
     render(){
         let title=this.props.navigation.state.params.title;
         let btnTxt=this.props.navigation.state.params.btnTxt;
+        let statusBar=this.state.theme.styles.navBar
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={title}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.state.theme.themeColor}}
+                    style={statusBar}
                     leftButton={
                         ViewUtil.getLeftButton(()=>{this.onBack()})
                     }

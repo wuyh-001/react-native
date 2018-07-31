@@ -16,7 +16,8 @@ export default class FavouritePage extends Component{
     constructor(props){
         super(props)
         this.state={
-            language:[]
+            language:[],
+            theme:this.props.theme
         }
         this.dataRepository=new DataRepository(FLAG_STORAGE.flag_popular);
     };
@@ -32,17 +33,16 @@ export default class FavouritePage extends Component{
             initialPage={1}
 
             >
-            <FavouriteTab tabLabel={'最热'} navigate={navigate} flag={FLAG_STORAGE.flag_popular}/>
-            <FavouriteTab tabLabel={'趋势'} navigate={navigate} flag={FLAG_STORAGE.flag_trending}/>
+            <FavouriteTab tabLabel={'最热'} navigate={navigate} flag={FLAG_STORAGE.flag_popular} theme={this.state.theme}/>
+            <FavouriteTab tabLabel={'趋势'} navigate={navigate} flag={FLAG_STORAGE.flag_trending} theme={this.state.theme}/>
         </ScrollableTabView>
-
+        let statusBar=this.state.theme.styles.navBar
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={'收藏'}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.state.theme.themeColor}}
+                    style={statusBar}
                     />
                 {content}
             </View>

@@ -17,7 +17,8 @@ export default class MyPage extends Component{
     constructor(props){
         super(props)
         this.state={
-            customThemeViewVisible:false
+            customThemeViewVisible:false,
+            theme:this.props.theme
         }
     };
     renderCustomTheme=()=>{
@@ -36,32 +37,34 @@ export default class MyPage extends Component{
         switch(tab){
             case MORE_MENU.Custom_Language:
                 TargetComponent='CustomKey';
-                params={isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                params={isRemove:false,title:'自定义语言',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language,theme:this.state.theme}
                 break;
             case MORE_MENU.Custom_Key:
                 TargetComponent='CustomKey';
-                params={isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                params={isRemove:false,title:'自定义标签',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Remove_Key:
                 TargetComponent='CustomKey';
 
-                params={isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key}
+                params={isRemove:true,title:'标签移除',btnTxt:'删除',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Sort_Key:
                 TargetComponent='SortKeyPage';
-                params={title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key}
+                params={title:'标签排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_key,theme:this.state.theme}
                 break;
             case MORE_MENU.Sort_Language:
                 TargetComponent='SortKeyPage';
-                params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language}
+                params={title:'语言排序',btnTxt:'保存',flag:FLAG_LANGUAGE.flag_language,theme:this.state.theme}
                 break;
             case MORE_MENU.Custom_Theme:
                 this.setState({customThemeViewVisible:true})
                 break;
             case MORE_MENU.About_Author:
+                params={theme:this.state.theme}
                 TargetComponent='AboutAuthorPage';
                 break;
             case MORE_MENU.About:
+                params={theme:this.state.theme}
                 TargetComponent='AboutPage';
                 break;
         }
@@ -71,13 +74,15 @@ export default class MyPage extends Component{
 
     }
     getItem=(callBack,icon,text)=>{
-        return ViewUtil.getSettingItem(callBack,icon,text,{tintColor:'#2196f3'}, null)
+        return ViewUtil.getSettingItem(callBack,icon,text,{tintColor:this.state.theme.themeColor}, null)
     }
 
     render(){
+        let statusBar=this.state.theme.styles.navBar
         let navigationBar=<NavigationBar
                               title={'我的'}
-                              statusBar={{backgroundColor:'#2196f3'}}
+                              statusBar={{backgroundColor:this.state.theme.themeColor}}
+                              style={statusBar}
                           />
         let that=this;
         return (
@@ -87,10 +92,10 @@ export default class MyPage extends Component{
                     <TouchableOpacity onPress={()=>{this.clickEvent(MORE_MENU.About)}}>
                         <View style={[styles.item,{height:90}]}>
                             <View style={{flexDirection:'row',alignItems:'center'}}>
-                                <Image source={require('../../../res/images/ic_trending.png')} style={[{width:40,height:40,marginRight:10},{tintColor:'#2196f3'}]}/>
+                                <Image source={require('../../../res/images/ic_trending.png')} style={[{width:40,height:40,marginRight:10},{tintColor:this.state.theme.themeColor}]}/>
                                 <Text>GitHub Popular</Text>
                             </View>
-                            <Image source={require('../../../res/images/ic_tiaozhuan.png')} style={[{width:20,height:20,marginRight:10},{tintColor:'#2196f3'}]}/>
+                            <Image source={require('../../../res/images/ic_tiaozhuan.png')} style={[{width:20,height:20,marginRight:10},{tintColor:this.state.theme.themeColor}]}/>
                         </View>
                     </TouchableOpacity>
                     <View style={GlobalStyles.line} />

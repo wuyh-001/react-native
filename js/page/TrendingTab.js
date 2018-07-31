@@ -131,12 +131,14 @@ export default class TrendingTab extends Component{
 
     _renderItem(projectModel){
         let navigate=this.props.navigate;
+        let theme=this.props.theme;
         return (
             <TrendingCell
                 projectModel={projectModel}
                 key={projectModel.item .fullName}
+                theme={this.props.theme}
                 onSelect={()=>{
-                    navigate('RepositoryDetail',{data:projectModel})
+                    navigate('RepositoryDetail',{data:projectModel,theme:theme})
                 }}
                 onFavourite={(item,isFavourite)=>{
                     this.onFavourite(item,isFavourite)
@@ -149,6 +151,8 @@ export default class TrendingTab extends Component{
         this.onLoad(this.props.timeSpan, true)
     }
     render(){
+        console.log(this.props.theme)
+        let theme=this.props.theme;
         return (
             <View style={styles.container}>
                 <ListView
@@ -159,8 +163,8 @@ export default class TrendingTab extends Component{
                         <RefreshControl
                             refreshing={this.state.isLoading}
                             onRefresh={()=>this.onRefresh()}
-                            colors={['#2196f3']}
-                            tintColor={'#2196f3'}
+                            colors={[theme.themeColor]}
+                            tintColor={theme.themeColor}
                             title={'Loading'}
                         />
                     }

@@ -69,7 +69,7 @@ const FLAG = {
 export default class AboutAuthorPage extends Component {
     constructor(props) {
         super(props);
-        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about_me,config)
+        this.aboutCommon=new AboutCommon(props,(dic)=>{this.updateState(dic)},FLAG_ABOUT.flag_about_me,config,this.props.navigation.state.params.theme)
         this.state={
             projectModel:[],
             author:config.author,
@@ -138,13 +138,14 @@ export default class AboutAuthorPage extends Component {
     }
     //显示列表数据
     renderItems=(dic,isShowAccount)=>{
+        let theme=that.props.navigation.state.params.theme;
         if(!dic){return null};
         let views=[];
         for(let i in dic){
             let title=isShowAccount?dic[i].title+':'+dic[i].account:dic[i].title;
             views.push(
                 <View key={i}>
-                    {ViewUtil.getSettingItem(()=>{this.clickEvent(dic[i])},'',title,{tintColor:'#2196f3'})}
+                    {ViewUtil.getSettingItem(()=>{this.clickEvent(dic[i])},'',title,{tintColor:theme.themeColor})}
                     <View style={GlobalStyles.line} />
                 </View>
             )
@@ -154,20 +155,21 @@ export default class AboutAuthorPage extends Component {
 
     render() {
         let that=this;
+        let theme=that.props.navigation.state.params.theme;
         let configView=<View>
-            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.BLOG)},require('./../../../res/images/ic_computer.png'),FLAG.BLOG.name,{tintColor:'#2196f3'},this.getClickEvent(this.state.showBlog))}
+            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.BLOG)},require('./../../../res/images/ic_computer.png'),FLAG.BLOG.name,{tintColor:theme.themeColor},this.getClickEvent(this.state.showBlog))}
             <View style={GlobalStyles.line} />
             {this.state.showBlog?this.renderItems(FLAG.BLOG.items):null}
 
-            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.REPOSITORY)},require('./../../../res/images/ic_code.png'),FLAG.REPOSITORY,{tintColor:'#2196f3'},this.getClickEvent(this.state.showRepository))}
+            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.REPOSITORY)},require('./../../../res/images/ic_code.png'),FLAG.REPOSITORY,{tintColor:theme.themeColor},this.getClickEvent(this.state.showRepository))}
             <View style={GlobalStyles.line} />
             {this.state.showRepository?this.aboutCommon.renderRepository(this.state.projectModel):null}
 
-            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.QQ)},require('./../../../res/images/ic_computer.png'),FLAG.QQ.name,{tintColor:'#2196f3'},this.getClickEvent(this.state.showQQ))}
+            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.QQ)},require('./../../../res/images/ic_computer.png'),FLAG.QQ.name,{tintColor:theme.themeColor},this.getClickEvent(this.state.showQQ))}
             <View style={GlobalStyles.line} />
             {this.state.showQQ?this.renderItems(FLAG.QQ.items,true):null}
 
-            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.CONTACT)},require('./../../../res/images/ic_contacts.png'),FLAG.CONTACT.name,{tintColor:'#2196f3'},this.getClickEvent(this.state.showContact))}
+            {ViewUtil.getSettingItem(()=>{this.clickEvent(FLAG.CONTACT)},require('./../../../res/images/ic_contacts.png'),FLAG.CONTACT.name,{tintColor:theme.themeColor},this.getClickEvent(this.state.showContact))}
             <View style={GlobalStyles.line} />
             {this.state.showContact?this.renderItems(FLAG.CONTACT.items,true):null}
 

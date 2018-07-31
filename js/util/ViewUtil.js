@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import {StyleSheet,Text,View,Image,TouchableOpacity} from 'react-native';
 
+import ThemeDao from './../expand/dao/ThemeDao.js';
 export default class ViewUtil {
     static getLeftButton(callBack){
         return (
@@ -48,7 +49,7 @@ export default class ViewUtil {
                         <Image source={icon} style={[{width:20,height:20,marginRight:10},tintStyle]}/>
                         <Text>{text}</Text>
                     </View>
-                    <Image source={expendableIcon?expendableIcon:require('../../res/images/ic_tiaozhuan.png')} style={[{width:20,height:20,marginRight:10},{tintColor:'#2196f3'}]}/>
+                    <Image source={expendableIcon?expendableIcon:require('../../res/images/ic_tiaozhuan.png')} style={[{width:20,height:20,marginRight:10},tintStyle]}/>
                 </View>
 
             </TouchableOpacity>

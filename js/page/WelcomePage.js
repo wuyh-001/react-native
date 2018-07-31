@@ -164,14 +164,14 @@ export default class WelcomePage extends Component{
     }
 
     render(){
-
+        let style=this.theme?this.theme.styles.navBar:{backgroundColor:'#2196f3'};
+        let statusBar=this.theme?this.theme.themeColor:'#2196f3'
         return (
             <View style={{flex:1}}>
                 <NavigationBar
                     title={'welcome'}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:statusBar}}
+                    style={style}
                     leftButton={
                         <TouchableOpacity>
                             <Image source={require('./../../res/images/ic_arrow_back_white_36pt.png')} style={{width:22,height:22}}/>

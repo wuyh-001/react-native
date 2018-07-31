@@ -91,13 +91,15 @@ export default class FavouriteTab extends Component{
 
     _renderItem(projectModel){
         let navigate=this.props.navigate;
+        let theme=this.props.theme;
         let CellComponent=this.props.flag==FLAG_STORAGE.flag_popular?RespositoryCell:TrendingCell;
         return (
             <CellComponent
                 projectModel={projectModel}
                 key={this.props.flag==FLAG_STORAGE.flag_popular?projectModel.item.id:projectModel.item.full_name}
+                theme={this.props.theme}
                 onSelect={()=>{
-                    navigate('RepositoryDetail',{data:projectModel})
+                    navigate('RepositoryDetail',{data:projectModel,theme:theme})
                 }}
                 onFavourite={(item,isFavourite)=>{
                     this.onFavourite(item,isFavourite)
@@ -107,6 +109,7 @@ export default class FavouriteTab extends Component{
     }
 
     render(){
+        let theme=this.props.theme;
         return (
             <View style={styles.container}>
                 <ListView
@@ -117,8 +120,8 @@ export default class FavouriteTab extends Component{
                         <RefreshControl
                             refreshing={this.state.isLoading}
                             onRefresh={()=>this.onLoad()}
-                            colors={['#2196f3']}
-                            tintColor={'#2196f3'}
+                            colors={[theme.themeColor]}
+                            tintColor={theme.themeColor}
                             title={'Loading'}
                         />
                     }

@@ -19,8 +19,7 @@ export default class RepositoryDetail extends Component{
             canGoBack:false,
             title:this.props.navigation.state.params.data.item.full_name?this.props.navigation.state.params.data.item.full_name:this.props.navigation.state.params.data.item.fullName,
             isFavourite:this.props.navigation.state.params.data.isFavourite,
-            favouriteIcon:this.props.navigation.state.params.data.isFavourite?require('../../res/images/ic_star.png'):require('../../res/images/ic_star_navbar.png')
-
+            favouriteIcon:this.props.navigation.state.params.data.isFavourite?require('../../res/images/ic_star.png'):require('../../res/images/ic_unstar_transparent.png')
         }
         this.search=this.search.bind(this);
         this.onNavigationStateChange=this.onNavigationStateChange.bind(this);
@@ -53,7 +52,8 @@ export default class RepositoryDetail extends Component{
     setFavouriteState(isFavourite){
         this.setState({
             isFavourite:isFavourite,
-            favouriteIcon:isFavourite?require('../../res/images/ic_star.png'):require('../../res/images/ic_star_navbar.png')
+            favouriteIcon:isFavourite?require('../../res/images/ic_star.png'):require('../../res/images/ic_unstar_transparent.png')
+
         })
     }
     onRightStart(){
@@ -71,13 +71,14 @@ export default class RepositoryDetail extends Component{
     render(){
         let data=this.props.navigation.state.params.data;
         let url=this.state.url;
+        let statusBar=this.props.navigation.state.params.theme.styles.navBar
+
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title={this.state.title}
-                    statusBar={{
-                        backgroundColor:'#2196f3'
-                    }}
+                    statusBar={{backgroundColor:this.props.navigation.state.params.theme.themeColor}}
+                    style={this.props.navigation.state.params.theme.styles.navBar}
                     leftButton={
                         ViewUtil.getLeftButton(()=>{this.onBack()})
                     }
@@ -85,7 +86,7 @@ export default class RepositoryDetail extends Component{
                         <TouchableOpacity onPress={()=>{this.onRightStart()}}>
                             <Image
                                 source={this.state.favouriteIcon}
-                                style={{width:18,height:18}}
+                                style={[{width:18,height:18},this.props.navigation.state.params.theme.styles.tabBarSelectedIcon]}
                             />
                         </TouchableOpacity>
                     }
