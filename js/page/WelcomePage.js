@@ -8,6 +8,7 @@ import Toast,{DURATION} from 'react-native-easy-toast';
 
 import NavigationBar from './../common/NavigationBar.js';
 import ThemeDao from './../expand/dao/ThemeDao.js';
+import MenuDialog from './../common/MenuDialog.js';
 
 const KEY='text';
 
@@ -15,6 +16,12 @@ const KEY='text';
 var CIRCLE_SIZE = 80;
 var CIRCLE_COLOR = 'blue';
 var CIRCLE_HIGHLIGHT_COLOR = 'green';
+
+const MENU=[
+    {name:'自定义语言',icon:require('./../../res/images/ic_code.png')},
+    {name:'语言排序',icon:require('./../../res/images/ic_feedback.png')},
+    {name:'自定义标签',icon:require('./../../res/images/ic_computer.png')},
+]
 
 export default class WelcomePage extends Component{
     constructor(props){
@@ -43,6 +50,7 @@ export default class WelcomePage extends Component{
             this.props.navigation.navigate('homePage',{theme:this.theme})
         },500)
         this._updatePosition();
+        this.refs.dialog.show();
     }
     componentWillUnmount(){
         this.timer&&clearTimeout(this.timer)
@@ -162,10 +170,23 @@ export default class WelcomePage extends Component{
         return <Text style={{fontSize:30,color:'#ff7b7c',margin:100}}>{initVal}</Text>
 
     }
+    onSelect=()=>{
+        console.log("onSelect")
+    }
+    onClose=()=>{
+        console.log('onClose');
+        this.refs.dialog.hide();
+    }
 
     render(){
         let style=this.theme?this.theme.styles.navBar:{backgroundColor:'#2196f3'};
-        let statusBar=this.theme?this.theme.themeColor:'#2196f3'
+        let statusBar=this.theme?this.theme.themeColor:'#2196f3';
+        let dialog={
+            menus:MENU,
+            theme:this.theme,
+            onSelect:this.onSelect,
+            onClose:this.onClose
+        }
         return (
             <View style={{flex:1}}>
                 <NavigationBar
@@ -197,8 +218,8 @@ export default class WelcomePage extends Component{
                 />
 
                 {this.startTime()}
-
-                <Toast ref={(toast)=>{this.toast=toast}}/>
+                <MenuDialog {...dialog} ref="dialog"/>
+                <Toast ref= {(toast)=>{this.toast=toast}}/>
             </View>
         )
     }

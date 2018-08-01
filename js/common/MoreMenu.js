@@ -57,7 +57,6 @@ export default class MoreMenu extends Component{
     }
 
     moreMenuSelected=(tab)=>{
-        console.log('moreMenu:'+this.state.theme.themeColor)
         this.closePopover();
         if(typeof this.props.onMoreSelect=="function"){
             this.props.onMoreSelect(tab)
