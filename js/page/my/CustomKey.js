@@ -123,6 +123,7 @@ export default class CustomKey extends Component{
         let title=this.props.navigation.state.params.title;
         let btnTxt=this.props.navigation.state.params.btnTxt;
         let statusBar=this.state.theme.styles.navBar
+        console.log('CustomKey:'+this.state.theme.themeColor)
         return (
             <View style={styles.container}>
                 <NavigationBar

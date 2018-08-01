@@ -86,7 +86,7 @@ export default class RepositoryDetail extends Component{
                         <TouchableOpacity onPress={()=>{this.onRightStart()}}>
                             <Image
                                 source={this.state.favouriteIcon}
-                                style={[{width:18,height:18},this.props.navigation.state.params.theme.styles.tabBarSelectedIcon]}
+                                style={[{width:18,height:18}]}
                             />
                         </TouchableOpacity>
                     }

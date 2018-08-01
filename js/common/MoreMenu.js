@@ -32,6 +32,11 @@ export default class MoreMenu extends Component{
             theme:this.props.theme
         }
     }
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            theme:nextProps.theme
+        })
+    }
 
     open(){
         this.showPopover();

@@ -32,6 +32,7 @@ export default class PopularPage extends BaseComponent{
         super.componentDidMount();
         this.loadData()
     }
+
     loadData(){
         this.languageDao.fetch().then(result=>{
             this.setState({language:result})
